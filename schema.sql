@@ -1,0 +1,2 @@
+CREATE DATABASE timely_DB;
+USE timely_DB;
