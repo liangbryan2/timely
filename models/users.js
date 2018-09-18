@@ -2,7 +2,7 @@ module.exports = function(sequelize, DataTypes) {
     var Users = sequelize.define("Users", {
         userName: DataTypes.STRING,
         name: DataTypes.STRING,
-        userId: DataTypes.INTEGER,
+        fireBaseId: DataTypes.INTEGER,
         imgUrl: {
             type: DataTypes.STRING,
             defaultValue: "http://www.animalspot.net/wp-content/uploads/2017/08/Baby-Penguin.jpg"
