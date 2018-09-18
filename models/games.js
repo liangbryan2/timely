@@ -1,18 +1,22 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
     var Games = sequelize.define("Games", {
-        name: { 
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {len: [1,255]}
+            validate: {
+                len: [1, 255]
+            }
         },
         mainLength: DataTypes.FLOAT,
         completionistLength: DataTypes.FLOAT,
         imgUrl: DataTypes.STRING
     });
 
-    Games.associate = function(models) {
+    Games.associate = function (models) {
         Games.belongsToMany(models.Users, {
-            through: {model: models.UsersGames}
+            through: {
+                model: models.UsersGames
+            }
         })
     };
 
