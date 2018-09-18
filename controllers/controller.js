@@ -46,10 +46,10 @@ router.post("/api/games", function (req, res) {
 // read game details display (reviews) later
 
 // read display dashboard
-router.get("/dashboard/:id", function (req, res) {
+router.get("/dashboard/:userid", function (req, res) {
     db.User.findAll({
         where: {
-            firebaseId: req.params.id
+            firebaseId: req.params.userid
         },
         include: [{
             model: db.Games
@@ -60,19 +60,48 @@ router.get("/dashboard/:id", function (req, res) {
 })
 
 // update game as complete
-router.put("/api/games/:gameid/:userid", function (req, res) {
+router.put("/api/:userid/games/:gameid/complete", function (req, res) {
     db.UsersGames.update(
-        req.body, {
+        {
+            complete: true,
+            inProgress: false
+        },{
             where: {
                 GameId: req.params.gameid,
                 UserId: req.params.userid 
             }
         }
-    )
-})
+    ).then(function (result) {
+        res.json(result)
+    })
+});
 
 // update game as inProgress
+router.put("/api/:userid/games/:gameid/progress", function (req, res) {
+    db.UsersGames.update(
+        {
+            inProgress: true
+        },{
+            where: {
+                GameId: req.params.gameid,
+                UserId: req.params.userid 
+            }
+        }
+    ).then(function (result) {
+        res.json(result)
+    })
+});
 
 // delete game from backlog
+router.delete("api/:userid/games/:gameid/delete", function (req, res) {
+    db.UsersGames.destroy({
+        where: {
+            GameID: req.params.gameid,
+            UserId: req.params.userid
+        }
+    }).then(function (result) {
+        res.json(result)
+    })
+})
 
 module.exports = router;

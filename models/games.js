@@ -9,7 +9,8 @@ module.exports = function (sequelize, DataTypes) {
         },
         mainLength: DataTypes.FLOAT,
         completionistLength: DataTypes.FLOAT,
-        imgUrl: DataTypes.STRING
+        imgUrl: DataTypes.STRING,
+        hltbID: DataTypes.Integer
     });
 
     Games.associate = function (models) {
