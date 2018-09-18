@@ -1,2 +1,3 @@
+DROP DATABASE IF EXISTS timely_DB;
 CREATE DATABASE timely_DB;
 USE timely_DB;
