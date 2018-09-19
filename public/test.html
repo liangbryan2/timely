@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Time.ly</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="test.css">
+    <link rel="shortcut icon" href="img/icons-10.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js"></script>
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+
+</head>
+<body>
+    <div class="gradient"></div>
+
+    <!-- <canvas id="myChart" width="400" height="400"></canvas> -->
+
+
+    <style>
+    
+        .gradient {
+
+            height: 500px;
+            width: 500px;
+            /* background-image: linear-gradient(to top right, rgba(255, 0, 0,.7),rgba(255, 255, 255,0)), url('img/brooklyn.jpg'); */
+            background-image: url('img/grad2.png'), url('img/brooklyn.jpg');            background-blend-mode: screen;
+            transition: .5s ease;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    
+        .gradient:hover {
+            background: linear-gradient(to top right, rgba(255, 0, 255,.7),rgba(255, 255, 255,0)), url('img/brooklyn.jpg');
+            background-size: cover;
+            background-blend-mode: screen;
+            background-repeat: no-repeat;
+            filter: blur(8px)
+        }
+
+    </style>
+
+    <script>
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ["Movies", "Shows", "Games", "Books"],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5],
+                    backgroundColor: [
+                        'rgba(142, 208, 129, 0.9)',
+                        'rgba(255, 89, 94, 0.9)',
+                        'rgba(254, 238, 158, 0.9)',
+                        'rgba(254, 158, 76, 0.9)'
+                    ],
+                    borderColor: [
+                        'rgba(142, 208, 129, 1)',
+                        'rgba(255, 89, 94, 1)',
+                        'rgba(254, 238, 158, 1)',
+                        'rgba(254, 158, 76, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {}
+        });
+
+
+        function convertTime(minutes) {
+
+            var time = minutes/60
+            var hours = Math.floor( minutes / 60);          
+            var minutes = minutes % 60;
+            var timeString = hours + "h " + minutes + "m"
+            return timeString
+
+        }
+
+
+
+
+
+
+    </script>
+
+
+
+
+
+
+
+</body>
+</html>

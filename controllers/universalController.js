@@ -29,7 +29,7 @@ router.post("/api/:userid/games/add", function (req, res) {
         db.Games.create(req.body).then(function (game) {
             db.Users.findOne({
                 where: {
-                    firebaseId: req.params.userid
+                    id: req.params.userid
                 }
             }).on('success', function (user) {
                 game.setUsers([user]);
@@ -45,7 +45,7 @@ router.post("/api/:userid/games/add", function (req, res) {
         }).on('success', function (game) {
             db.Users.findOne({
                 where: {
-                    firebaseId: req.params.userid
+                    id: req.params.userid
                 }
             }).on('success', function (user) {
                 game.setUsers([user]);

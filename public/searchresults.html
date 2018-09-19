@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Time.ly</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="searchResults.css">
+    <link rel="shortcut icon" href="img/icons-10.png">
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div class="searchResultsWrap">
+        <div class="searchBarWrap">
+            <div class="searchBar">
+                <form class="searchForm">
+                    <div class="section">
+                    <div class="dropdown">
+                    <button id="activeCategory" class="dropbtn" value="movie">Media</button>
+                    <div class="dropdown-content">
+                        <h3 class="dropdownCategory" value="movie">Movies</h3>
+                        <h3 class="dropdownCategory" value="show">Shows</h3>
+                        <h3 class="dropdownCategory" value="game">Games</h3>
+                        <h3 class="dropdownCategory" value="book">Books</h3>
+                    </div>
+                    </div>
+                    <input type="text" id="searchQuery" placeholder="Search movies, shows, games, books">
+                    <img src="img/icons-05.png" class="icon">    
+                </div>
+                </form>
+                <div class="smallLogo">
+                <h1>Time.ly</h1>
+                </div>
+            </div>
+
+        </div>
+        <div class="searchResultsBox">
+            <div class="srbCol1">
+                <div class="srb-largeThumb">
+                    <div class="text">
+                        <h1>Media Title</h1>
+                        <h2>4h 35m</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="srbCol2">
+
+                <div class="searchResultsReturn">
+
+                    <div class="searchResultThumb-medium">
+                        <div class="addToDB">
+                            <h1>Add to Database</h1>
+                        </div>
+                        <div class="text">
+                            <h1>Media Title</h1>
+                            <h2>4h 35m</h2>
+                        </div>
+                    </div>
+                    <div class="searchResultThumb-medium">
+                        <div class="addToDB">
+                            <h1>Add to Database</h1>
+                        </div>
+                        <div class="text">
+                            <h1>Media Title</h1>
+                            <h2>4h 35m</h2>
+                        </div>
+                    </div>
+                    <div class="searchResultThumb-medium">
+                        <div class="addToDB">
+                            <h1>Add to Database</h1>
+                        </div>
+                        <div class="text">
+                            <h1>Media Title</h1>
+                            <h2>4h 35m</h2>
+                        </div>
+                    </div>
+                    <div class="searchResultThumb-medium">
+                        <div class="addToDB">
+                            <h1>Add to Database</h1>
+                        </div>
+                        <div class="text">
+                            <h1>Media Title</h1>
+                            <h2>4h 35m</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        var currentCategory
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1) + "s";
+        }
+
+        function assignValue(categoryVal, callback){
+
+            $("#activeCategory").attr("value", "")
+            $("#activeCategory").attr("value", categoryVal)
+            callback(categoryVal)
+
+        }
+
+        function render(categoryVal) {
+
+            var name = capitalizeFirstLetter(categoryVal)
+            $("#activeCategory").text(name)
+
+        }
+
+        $(".dropdownCategory").on("click",
+        function(){
+
+            currentCategory = $(this).attr("value")
+            console.log(currentCategory)
+            assignValue(currentCategory, render)
+
+        }
+        )
+            
+        console.log("current search category " + currentCategory)
+    </script>
+    
+</body>
+</html>

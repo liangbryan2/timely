@@ -5,7 +5,7 @@ $(document).ready(function () {
         var newUser = {
             userName: $("#userName").val().trim(),
             name: $("#name").val().trim(),
-            imgUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/7/7e/Patrick_Star.png/220px-Patrick_Star.png",
+            imgUrl: $("#imgUrl").val().trim(),
             email: $("#email").val().trim(),
             password: $("#password").val().trim()
         };
@@ -33,7 +33,7 @@ $(document).ready(function () {
 
     $("#logOut").on("click", function() {
         $.ajax("/logout", {
-            type: "POST"
+            type: "PUT"
         }).then(function(result) {
             console.log(result);
         })

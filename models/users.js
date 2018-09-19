@@ -11,14 +11,20 @@ module.exports = function(sequelize, DataTypes) {
 
     Users.associate = function(models) {
 
-        // Users.hasMany(models.Reviews, {
-        //     // Unsure what cascade does right now
-        //     onDelete: "cascade"
-        // });
-
         Users.belongsToMany(models.Games, {
             through: {model: models.UsersGames}
-        })
+        });
+        Users.belongsToMany(models.Movies, {
+            through: {model: models.UsersMovies}
+        });
+        Users.belongsToMany(models.Books, {
+            through: {model: models.UsersBooks}
+        });
+        Users.belongsToMany(models.Shows, {
+            through: {model: models.UsersShows}
+        });
+        Users.hasMany(models.Reviews);
+        
     }
     return Users;
 };

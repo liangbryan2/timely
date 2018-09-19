@@ -1,0 +1,323 @@
+body {
+    max-width: 100%;
+}
+
+.navigate {
+    background-color: white;
+}
+
+.navigate .navWrap{
+    width: 780px;
+    display: flex;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
+.navigate h1 {
+    font-size: 25px;
+    font-weight: 900;
+    font-style: italic;
+    color: white;
+    padding: 20px;
+}
+
+.navigate .logo {
+    background-color: #266DD3;
+    transition: .2s ease;
+    cursor: pointer
+}
+
+.navigate .logo:hover {
+    background-color: #FF595E;
+}
+
+.navigate .logo:hover h1 {
+    color: white;
+}
+
+.navigate .profileTile {
+    display: flex;
+    padding: 0 24px;
+    cursor: pointer
+}
+
+.navigate .profileTile h2 {
+    padding: 24px 24px 24px 0;
+}
+
+.navigate .profileTile {
+
+    transition: .2s ease;
+}
+
+.navigate .profileTile:hover {
+    background-color: #BFD9EF;
+}
+
+.timeLarge {
+    font-size: 25px;
+    font-weight: 900;
+    color: #266DD3;
+    transition: .2s ease;
+}
+
+.timeLarge:hover {
+    color: #70ACE8
+}
+
+.dashboardMain {
+    width: 800px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.dashRow1 {
+    background-color: white;
+    padding: 10px 20px;
+    margin: 10px;
+}
+
+.dashRow1 h1 {
+    font-weight: 900;
+    font-style: italic;
+}
+
+.dashRow1 {
+    display: flex;
+}
+
+.dashRow2 .statsRow {
+    display: flex;
+}
+
+.dashRow2 .statBox {
+    background-color: white;
+    width: 100%;
+    padding: 20px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    transition: .2s ease;
+    cursor: pointer
+}
+
+.dashRow2 .statBox:hover {
+    background-color: #F5EE9E;
+}
+
+.dashRow2 .statBox h2 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.dashRow2 .statBox h3 {
+    text-align: center;
+}
+
+.dashRow2 .statBox .icon {
+    height: 100px;
+    width: 100px;
+    margin: 0 auto;
+}
+
+.dashRow3 {
+    display: flex;
+}
+
+.dashRow3 .container {
+    width: 100%;
+    margin: 10px;
+}
+
+.dashRow3 .dashSection {
+    background-color: white;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.dashRow3 .dashSection .stats {
+    background-color:#266DD3;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.dashRow3 .currentMediaIcon {
+    width: 200px;
+    height: 250px;
+    background-color: darkgray;
+    margin: 0 auto;
+}
+
+.dashRow3 .currentMediaText {
+    margin-top: 20px;
+}
+
+.dashRow3 h2 {
+    text-align: center;
+}
+
+.blueLarge {
+    font-size: 25px;
+    font-weight: 900;
+    color: #266DD3;
+    transition: .2s ease;
+}
+
+.blueLarge:hover {
+    color: #70ACE8
+}
+
+.totalLogged {
+    display: flex;
+    flex-direction: column;
+    transition: .2s ease;
+    margin: 15px 0 0;
+    line-height: 25px;
+}
+
+.moreStats {
+    transition: .2s ease;
+
+}
+
+.moreStats:hover {
+    background-color: #F5EE9E;
+    font-weight: 900;
+    color: #266DD3;
+}
+
+.totalLogged h2 {
+    text-align: center;
+    width: 100%;
+}
+
+#backlog {
+    padding: 10px;
+}
+
+.backlog h1 {
+    font-size: 25px;
+    font-weight: 900;
+    color: #266DD3;
+}
+
+.backlog h2 {
+    padding: 3px;
+    background-color: white;
+}
+
+.backlog .head {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px
+}
+
+.thumbnailBox {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 800px;
+    overflow: scroll;
+}
+
+.mediaThumbnail {
+    width: 160px;
+    height: 220px;
+    background-color: #BFD9EF;
+    margin: 10px;
+    display: flex;
+    flex-direction: column-reverse;
+    cursor: pointer
+}
+
+.dashRow1 input {
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    background-color: white;
+    font-size: 14px;
+}
+
+.dashRow1 .section {
+    margin: 6px 0;
+    display: flex;
+    background-color: white;
+    border-bottom: 3px solid white;
+    transition: .2s ease;
+    width: 100%;
+    padding: 5px 0;
+}
+
+.dashRow1 .section:hover {
+border-bottom: 3px solid #266DD3;
+}
+
+.dashRow1 .icon {
+    margin: 3px;
+}
+
+.dashRow1 .searchForm {
+    width: 100%
+}
+
+.mediaThumbnail .mediaThumbnailText {
+    padding: 10px;
+    color: black;
+    text-align: right;
+}
+
+.mediaThumbnail .mediaThumbnailText h3 {
+    font-weight: 900;
+    font-size: 20px;
+}
+
+
+.mediaThumbnail .mediaThumbnailText h3 {
+    font-weight: 900;
+}
+
+.boldBlue {
+    font-weight: 900;
+    color: #266DD3;
+}
+
+.profilePicture {
+    background-image: url(img/penguin.jpeg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 35px;
+    width: 35px;
+    border-radius: 25px;
+    margin: 15px 0;
+}
+
+.changeToCurrent {
+    display: none;
+}
+
+.changeToCurrent h3 {
+    text-align: right;
+    padding: 10px;
+}
+
+.mediaThumbnail:hover .changeToCurrent {
+    display: flex;
+}
+
+.mediaThumbnail:hover .mediaThumbnailText {
+    display: none;
+}
+
+.mediaThumbnail:hover {
+    background-blend-mode: multiply;
+    background-color: #BFD9EF;
+}
+
+.logo:hover h1 {
+    
+}
+
+#currentMedia {
+    height: 320px;
+    overflow: scroll;
+}
