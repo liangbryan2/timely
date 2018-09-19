@@ -48,7 +48,14 @@
                         <h2>{{this.minutes}}</h2>
                     </div>
                     {{/each}}
-                </div>
+                </div>                    
+                <div class="dashSection">
+                        <canvas id="myChart" width="340" height="340"></canvas>
+                        <div class="totalLogged">
+                            <h2>Total time in queue: <span id="totalTimeLogged" class="boldBlue">2h 20m</span></h2>
+                            <h2>Total time logged: <span id="totalTimeLogged" class="boldBlue">3h 15m</span></h2>
+                        </div>
+                    </div>
                 <div class="dashSection">
                     <div class="totalLogged">
                         <h2>Total time in queue: <span id="totalTimeLogged" class="boldBlue">{{totalMin}}</span></h2>
