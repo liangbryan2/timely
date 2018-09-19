@@ -1,0 +1,233 @@
+.searchBarWrap {
+    z-index: 10;
+    bottom: 0;
+}
+
+.searchBar {
+    width: 800px;
+    padding: 10px;
+}
+
+.searchBar input {
+    width: 100%;
+    padding: 4px;
+    border: 0;
+    background-color: white;
+    font-size: 15px
+}
+
+.searchBar .section {
+    margin: 0 auto;
+    display: flex;
+    background-color: white;
+    transition: .2s ease;
+}
+
+.searchBar .icon {
+    margin: 10px;
+}
+
+.searchBarWrap {
+    margin: 0 auto;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+.searchResultsBox {
+    background-color: pink;
+    height: 100%;
+    width: 100%;
+}
+
+.searchResultsNav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+}
+
+.searchResultsNav h1 {
+    font-size: 15px;
+    font-weight: 900;
+    font-style: italic;
+    color: white;
+    padding: 10px;
+}
+
+.searchResultsNav .logo {
+    background-color: #266DD3;
+    transition: .2s ease;
+}
+
+.searchResultsNav .logo:hover {
+    background-color: #4C6085;
+}
+
+.searchResultsNav .logo:hover h1 {
+    color: white;
+}
+
+.searchResultsBox {
+    display: flex;
+    height: 100vh;
+}
+
+.srbCol1 {
+    height: 100%;
+    width: 50%;
+}
+
+.srb-largeThumb {
+    background-color: skyblue;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.srb-largeThumb .text {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 20px;
+}
+
+.srb-largeThumb .text h1 {
+    color: white;
+    font-size: 55px;
+    font-weight: 900;
+}
+
+.srb-largeThumb .text h2 {
+    font-size: 35px;
+    font-style: italic;
+    font-weight: 900;
+}
+
+.srbCol2 {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 50%;
+}
+
+.srbCol2 .row {
+    height: 33.33vh;
+    background-color: lightgreen;
+    width: 100%;
+    display: flex;
+}
+
+.searchResultsReturn {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.searchResultThumb {
+    background-color: lightgrey;
+    height: 33.3%;
+    width: 33.3%;
+    position: relative;
+}
+
+.searchResultThumb .text {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 20px;
+    text-align: right;
+}
+
+.searchResultThumb .text h1 {
+    color: white;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.searchResultThumb .text h2 {
+    font-size: 15px;
+    font-style: italic;
+}
+
+.searchResultThumb:hover .addToDB {
+    display: block;
+    cursor: pointer;
+}
+
+.searchResultThumb:hover .text {
+    display: none;
+}
+
+.searchResultThumb-medium {
+    background-color: lightgrey;
+    height: 50%;
+    width: 50%;
+    position: relative;
+}
+
+.searchResultThumb-medium .text {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 20px;
+    text-align: right;
+}
+
+.searchResultThumb-medium .text h1 {
+    color: white;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.searchResultThumb-medium .text h2 {
+    font-size: 15px;
+    font-style: italic;
+}
+
+.searchResultThumb-medium:hover .addToDB {
+    display: block;
+    cursor: pointer;
+}
+
+.searchResultThumb-medium:hover .text {
+    display: none;
+}
+
+.green {
+    background-color: lightgreen
+}
+
+.blue {
+    background-color: lightblue
+}
+
+.orange {
+    background-color: lightcoral
+}
+
+.empty{
+    height: 35px;
+}
+
+.smallLogo {
+    font-size: 15px;
+    width: 55px;
+    color: white;
+    font-weight: 900;
+    background-color: #266DD3;
+    padding: 10px;
+    font-style: italic;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.addToDB {
+    display: none;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 20px;
+    text-align: right;
+}

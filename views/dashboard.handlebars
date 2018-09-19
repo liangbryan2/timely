@@ -1,1 +1,108 @@
-<p>{{result.length}}sadfasdf</p>
+<div class="dashboardWrap">
+
+    <div class="navigate">
+        <div class="navWrap">
+            <div class="logo">                
+                <h1>Time.ly</h1>
+            </div>
+
+            <div class="profileTile">
+                <h2 class="username">{{name}}</h2>
+                <div class="profilePicture"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="dashboardMain">
+
+        <div class="dashRow2">
+            <div class="statsRow">
+                <div class="statBox" value="moviesDash">
+                    <img src="img/icons-06.png" alt="" class="icon"> 
+                    <h2 class="timeLarge">{{movieMin}}</h2>
+                </div>
+                <div class="statBox" value="showsDash">
+                    <img src="img/icons-08.png" alt="" class="icon">
+                    <h2 class="timeLarge">{{showMin}}</h2>
+                </div>
+                <div class="statBox" value="gamesDash">
+                    <img src="img/icons-07.png" alt="" class="icon">
+                    <h2 class="timeLarge">{{gameMin}}</h2>
+                </div>
+                <div class="statBox" value="booksDash">
+                    <img src="img/icons-09.png" alt="" class="icon">
+                    <h2 class="timeLarge">{{bookMin}}</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashRow3">
+
+            <div class="container">
+                <div class="dashSection" id="currentMedia">
+                    {{#each inProgress}}
+                    <div class="currentMediaIcon" style="background-image: url('{{this.imgUrl}}'')"></div>
+                    <div class="currentMediaText">
+                        <h2 class="blueLarge">{{this.name}}</h2>
+                        <h2>{{this.minutes}}</h2>
+                    </div>
+                    {{/each}}
+                </div>
+                <div class="dashSection">
+                    <div class="totalLogged">
+                        <h2>Total time in queue: <span id="totalTimeLogged" class="boldBlue">{{totalMin}}</span></h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="dashSection backlog" id="backlog">
+                    <div class="head">
+                        <h1>Current Back Log</h1>
+                        <h2 id="currentMediaType">MEDIA</h2>
+                    </div>
+                    <div class="thumbnailBox">
+                        {{#each backlog}}
+                        <div class="mediaThumbnail" style="background-image: url('{{this.imgUrl}}')">
+                            <div class="changeToCurrent">
+                                <h3 class="currentToggle" value="false">Make Current Media</h3>
+                            </div>
+                            <div class="mediaThumbnailText">
+                                <h3 class="mediaThumbnailTitle">{{this.name}}</h3>
+                                <h4 class="mediaThumbnailSubtitle"> {{this.minutes}}</h4>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+<div class="footer">
+</div>
+
+</div>    
+
+<div class="empty" data-something=""></div>
+
+<script>
+
+
+
+    $(".statBox").on("click", function() {
+        var dashCategory = $(this).attr("value")
+        alert(dashCategory)
+        // renderPage
+    })
+
+    $(".mediaThumbnail").on("click", function(){
+        // grab mediaID from $(this)
+        alert("Make Current Media")
+    })
+
+</script>

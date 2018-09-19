@@ -1,0 +1,214 @@
+@font-face {
+    font-family: Avenir;
+    src: url('type/AvenirNext.ttc');
+}
+
+body {
+    font-family: Avenir;
+    background-color: #e2e2e2
+}
+
+h1 {
+
+}
+
+.signInWrap {
+    width: 400px;
+    background-color: #F4F4F4;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px 40px 20px;
+}
+
+.signInWrap .header {
+    margin-bottom: 20px;
+    border-bottom: 3px solid black;
+    padding-bottom: 5px;
+}
+
+.signInWrap .header h1 {
+    font-size: 55px;
+    font-weight: 900;
+    color: #266DD3;
+    letter-spacing: 1px;
+}
+
+.signInWrap .header h2 {
+    margin: 10px 0;
+    font-style: italic;
+    font-size: 20px;
+}
+
+.signInWrap form {
+    margin: 10px 0;
+}
+
+.signInWrap .section {
+    margin: 15px 0;
+    display: flex;
+    background-color: white;
+    border-bottom: 3px solid white;
+    transition: .2s ease;
+}
+
+.signInWrap .section:hover {
+    border-bottom: 3px solid #266DD3;
+}
+
+.signInWrap input {
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    background-color: white;
+    font-size: 20px
+}
+
+.signInWrap h2 {
+    margin-bottom: 10px;
+}
+
+.signInWrap .icon {
+    margin: 7.5px;
+}
+
+.icon {
+    height: 30px;
+    width: 30px;
+}
+
+.signInWrap .button {
+    padding: 17px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    width: 50%;
+    display: flex;
+    align-content: center;
+}
+
+.signInWrap h3 {
+    width: 100%;
+}
+
+#signInButtons {
+    background-color: rgba(0,0,0,0);
+    border-bottom: 0;
+    display: flex;
+}
+
+#signUp {
+    background-color: #266DD3;
+    transition: .2s ease;
+}
+
+#signUp:hover {
+    color: #16549E;
+    background-color: #BFD9EF;
+}
+
+#signIn {
+    background-color: #A0C2EA;
+    transition: .2s ease;
+}
+
+#signIn:hover {
+    background-color: #BFD9EF;
+    color: #16549E;
+}
+
+.searchWrap {
+    width: 800px;
+    background-color: #F4F4F4;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+}
+
+.searchWrap input {
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    background-color: white;
+    font-size: 15px
+}
+
+.searchWrap .section {
+    margin: 15px 0;
+    display: flex;
+    background-color: white;
+    border-bottom: 3px solid white;
+    transition: .2s ease;
+}
+
+.searchWrap .icon {
+    margin: 7.5px;
+}
+
+#returningSignIn {
+    background-color: #266DD3;
+    width: 100%;
+    transition: .2s ease;
+}
+
+#returningSignIn:hover {
+    background-color: #70ACE8;
+    color: black;
+}
+
+.dropbtn {
+    background-color: white;
+    color: black;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    z-index: 1;
+    height: 0;
+    transition: .2s ease;
+    border-top: 3px solid #266DD3;
+}
+
+.dropdown-content h3 {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+}
+
+.dropdown-content h3:hover {
+    background-color: #70ACE8;
+    color: white;
+}
+
+.dropdown:hover .dropdown-content {
+    display: flex;
+    top: -43px;
+    height: 40px;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #266DD3;
+    color: white;
+}
+
+.searchWrap h1 {
+    font-size: 40px;
+    font-weight: 900;
+    color: #266DD3;
+    letter-spacing: 1px;
+}
+/* 
+#FF595E */

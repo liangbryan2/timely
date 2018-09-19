@@ -1,7 +1,6 @@
 var express = require("express");
 var db = require("../models");
 var router = express.Router();
-var moment = require("moment");
 
 // Initialize Firebase
 var firebase = require('firebase');
@@ -18,6 +17,16 @@ var auth = firebase.auth();
 
 // userId is associated with currently logged in user
 var userId;
+
+function convertTime(minutes) {
+
+    var time = minutes / 60
+    var hours = Math.floor(minutes / 60);
+    var minutes = minutes % 60;
+    var timeString = hours + "h " + minutes + "m"
+    return timeString
+
+}
 
 
 // Landing page
@@ -107,7 +116,118 @@ router.get("/dashboard/:media?", function (req, res) {
             model: db.Shows
         }]
     }).then(function (result) {
-        res.render("dashboard", result);
+        var movieMin = 0;
+        var movieArr = [];
+        if (result.Movies[0]) {
+            for (var i = 0; i < result.Movies.length; i++) {
+                movieMin += result.Movies[i].runtime
+
+                var movie = {
+                    id: result.Movies[i].id,
+                    name: result.Movies[i].name,
+                    imgUrl: result.Movies[i].imgUrl,
+                    minutes: convertTime(result.Movies[i].runtime),
+                    inProgress: result.Movies[i].UsersMovies.inProgress,
+                    type: "movies"
+                }
+                movieArr.push(movie);
+            }
+
+        }
+        var gameMin = 0;
+        var gameArr = [];
+        if (result.Games[0]) {
+            for (var i = 0; i < result.Games.length; i++) {
+                gameMin += result.Games[i].mainMinutes
+
+                var game = {
+                    id: result.Games[i].id,
+                    name: result.Games[i].name,
+                    imgUrl: result.Games[i].imgUrl,
+                    minutes: convertTime(result.Games[i].minutes),
+                    inProgress: result.Games[i].UsersGames.inProgress,
+                    type: "games"
+                }
+                gameArr.push(game);
+            }
+        }
+
+        var bookMin = 0;
+        var bookArr = [];
+        if (result.Books[0]) {
+            for (var i = 0; i < result.Books.length; i++) {
+                bookMin += result.Books[i].minutes
+
+                var book = {
+                    id: result.Books[i].id,
+                    name: result.Books[i].name,
+                    imgUrl: result.Books[i].imgUrl,
+                    minutes: convertTime(result.Books[i].minutes),
+                    inProgress: result.Books[i].UsersBooks.inProgress,
+                    type: "shows"
+                }
+                bookArr.push(book);
+            }
+
+        }
+        var showMin = 0;
+        var showArr = [];
+        if (result.Shows[0]) {
+            for (var i = 0; i < result.Shows.length; i++) {
+                showMin += result.Shows[i].minutes
+
+                var show = {
+                    id: result.Shows[i].id,
+                    name: result.Shows[i].name,
+                    imgUrl: result.Shows[i].imgUrl,
+                    minutes: convertTime(result.Shows[i].minutes),
+                    inProgress: result.Shows[i].UsersShows.inProgress,
+                    type: "books"
+                }
+                showArr.push(show);
+
+            }
+        }
+        var totalMin = gameMin + showMin + movieMin + bookMin;
+        var backlogArr = [];
+        var inProgressArr = [];
+        for (var i = 0; i < 10; i++) {
+            if (movieArr[i] && movieArr[i].inProgress === false) {
+                backlogArr.push(movieArr[i]);
+            } else if (movieArr[i]) {
+                inProgressArr.push(movieArr[i])
+            }
+            if (gameArr[i] && gameArr[i].inProgress === false) {
+                backlogArr.push(gameArr[i]);
+            } else if (gameArr[i]) {
+                inProgressArr.push(gameArr[i])
+            }
+            if (showArr[i] && showArr[i].inProgress === false) {
+                backlogArr.push(showArr[i]);
+            } else if (showArr[i]) {
+                inProgressArr.push(showArr[i])
+            }
+            if (bookArr[i] && bookArr[i].inProgress === false) {
+                backlogArr.push(bookArr[i]);
+            } else if (bookArr[i]) {
+                inProgressArr.push(bookArr[i])
+            }
+        }
+        var object = {
+            name: result.name,
+            gameMin: gameMin,
+            movieMin: movieMin,
+            showMin: showMin,
+            bookMin: bookMin,
+            totalMin: totalMin,
+            movies: movieArr,
+            games: gameArr,
+            books: bookArr,
+            shows: showArr,
+            backlog: backlogArr,
+            inProgress: inProgressArr
+        }
+        res.render("dashboard", object);
         return;
     })
 })
@@ -211,22 +331,30 @@ router.delete("/api/:model/:mediaid/delete", function (req, res) {
 function postModelSwitch(modelName, body) {
     var conditional;
     var model;
-    switch(modelName) {
+    switch (modelName) {
         case "games":
             model = db.Games;
-            conditional = {hltbID: body.hltbID}
+            conditional = {
+                hltbID: body.hltbID
+            }
             break;
         case "books":
             model = db.Books;
-            conditional = {gBooksID: body.gBooksID}
+            conditional = {
+                gBooksID: body.gBooksID
+            }
             break;
         case "movies":
             model = db.Movies;
-            conditional = {imdbID: body.imdbID}
+            conditional = {
+                imdbID: body.imdbID
+            }
             break;
         case "shows":
             model = db.Shows;
-            conditional = {tvMazeID: body.tvMazeID}
+            conditional = {
+                tvMazeID: body.tvMazeID
+            }
             break;
     }
     return [conditional, model]
