@@ -18,7 +18,17 @@ module.exports = function(sequelize, DataTypes) {
 
         Users.belongsToMany(models.Games, {
             through: {model: models.UsersGames}
-        })
+        });
+        Users.belongsToMany(models.Movies, {
+            through: {model: models.UsersMovies}
+        });
+        Users.belongsToMany(models.Books, {
+            through: {model: models.UsersBooks}
+        });
+        Users.belongsToMany(models.Shows, {
+            through: {model: models.UsersShows}
+        });
+        
     }
     return Users;
 };
