@@ -12,14 +12,13 @@ module.exports = function(sequelize, DataTypes) {
         }
     });
 
-    // Reviews.associate = function(models) {
-    //     Reviews.belongsTo(models.Users, {
-    //         foreignKey: {allowNull: false}
-    //     });
-    //     Reviews.belongsTo(models.Games, {
-    //         foreignKey: {allowNull: false}
-    //     });
-    // };
+    Reviews.associate = function(models) {
+        Reviews.belongsTo(models.Users);
+        Reviews.belongsTo(models.Games);
+        Reviews.belongsTo(models.Movies);
+        Reviews.belongsTo(models.Shows);
+        Reviews.belongsTo(models.Books);
+    };
 
     return Reviews;
 };

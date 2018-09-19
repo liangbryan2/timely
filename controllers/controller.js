@@ -1,6 +1,7 @@
 var express = require("express");
 var db = require("../models");
 var router = express.Router();
+var moment = require("moment");
 
 // Initialize Firebase
 var firebase = require('firebase');
@@ -106,9 +107,7 @@ router.get("/dashboard/:media?", function (req, res) {
             model: db.Shows
         }]
     }).then(function (result) {
-        // console.log(result);
-        // res.render("dashboard", result)
-        res.json(result);
+        res.render("dashboard", result);
         return;
     })
 })
@@ -123,6 +122,8 @@ router.get("/dashboard/:media?", function (req, res) {
 
 // Switch case to see what type of media we are going to update
 function modelSwitch(modelName, mediaId) {
+    var conditional;
+    var model;
     switch (modelName) {
         case "games":
             model = db.UsersGames;
@@ -153,14 +154,15 @@ function modelSwitch(modelName, mediaId) {
             }
             break;
     }
+    return [conditional, model]
 }
 
 
 // update game as complete
 router.put("/api/:model/:mediaid/complete", function (req, res) {
-    var conditional;
-    var model;
-    modelSwitch(req.params.model, req.params.mediaid);
+    var array = modelSwitch(req.params.model, req.params.mediaid);
+    var conditional = array[0];
+    var model = array[1];
     model.update({
         complete: true,
         inProgress: false
@@ -173,9 +175,9 @@ router.put("/api/:model/:mediaid/complete", function (req, res) {
 
 // update game as inProgress
 router.put("/api/:model/:mediaid/progress", function (req, res) {
-    var conditional;
-    var model;
-    modelSwitch(req.params.model, req.params.mediaid);
+    var array = modelSwitch(req.params.model, req.params.mediaid);
+    var conditional = array[0];
+    var model = array[1];
     model.update({
         inProgress: true
     }, {
@@ -186,10 +188,10 @@ router.put("/api/:model/:mediaid/progress", function (req, res) {
 });
 
 // delete game from backlog
-router.delete("api/:model/:mediaid/delete", function (req, res) {
-    var conditional;
-    var model;
-    modelSwitch(req.params.model, req.params.mediaid);
+router.delete("/api/:model/:mediaid/delete", function (req, res) {
+    var array = modelSwitch(req.params.model, req.params.mediaid);
+    var conditional = array[0];
+    var model = array[1];
     model.destroy({
         where: conditional
     }).then(function (result) {

@@ -10,7 +10,9 @@ module.exports = function (sequelize, DataTypes) {
         mainLength: DataTypes.FLOAT,
         completionistLength: DataTypes.FLOAT,
         imgUrl: DataTypes.STRING,
-        hltbID: DataTypes.INTEGER
+        hltbID: DataTypes.INTEGER,
+        mainMinutes: DataTypes.INTEGER,
+        completeMinutes: DataTypes.INTEGER
     });
 
     Games.associate = function (models) {
@@ -18,7 +20,8 @@ module.exports = function (sequelize, DataTypes) {
             through: {
                 model: models.UsersGames
             }
-        })
+        });
+        Games.hasMany(models.Reviews);
     };
 
     return Games;

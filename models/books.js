@@ -9,7 +9,8 @@ module.exports = function (sequelize, DataTypes) {
         },
         pages: DataTypes.FLOAT,
         imgUrl: DataTypes.STRING,
-        gBooksID: DataTypes.STRING
+        gBooksID: DataTypes.STRING,
+        minutes: DataTypes.INTEGER
     });
 
     Books.associate = function (models) {
@@ -17,7 +18,8 @@ module.exports = function (sequelize, DataTypes) {
             through: {
                 model: models.UsersBooks
             }
-        })
+        });
+        Books.hasMany(models.Reviews);
     };
 
     return Books;

@@ -17,7 +17,8 @@ module.exports = function (sequelize, DataTypes) {
             through: {
                 model: models.UsersMovies
             }
-        })
+        });
+        Movies.hasMany(models.Reviews);
     };
 
     return Movies;
