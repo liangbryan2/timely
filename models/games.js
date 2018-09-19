@@ -10,7 +10,7 @@ module.exports = function (sequelize, DataTypes) {
         mainLength: DataTypes.FLOAT,
         completionistLength: DataTypes.FLOAT,
         imgUrl: DataTypes.STRING,
-        hltbID: DataTypes.Integer
+        hltbID: DataTypes.INTEGER
     });
 
     Games.associate = function (models) {

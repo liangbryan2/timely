@@ -12,7 +12,11 @@ router.post("/api/:userid/games/add", function (req, res) {
 
     // verify if entry is already in database
     var newEntry;
-    db.Games.findOne({where: {hltbID: req.body.hltbID}}).then(function(result) {
+    db.Games.findOne({
+        where: {
+            hltbID: req.body.hltbID
+        }
+    }).then(function (result) {
         if (result) {
             newEntry = false;
         } else {
@@ -22,13 +26,34 @@ router.post("/api/:userid/games/add", function (req, res) {
 
     if (newEntry) {
         // Create game with association
+        db.Games.create(req.body).then(function (game) {
+            db.Users.findOne({
+                where: {
+                    firebaseId: req.params.userid
+                }
+            }).on('success', function (user) {
+                game.setUsers([user]);
+            });
+        })
 
     } else {
         // Create association with game
-        
+        db.Games.findOne({
+            where: {
+                hltbID: req.body.hltbID
+            }
+        }).on('success', function (game) {
+            db.Users.findOne({
+                where: {
+                    firebaseId: req.params.userid
+                }
+            }).on('success', function (user) {
+                game.setUsers([user]);
+            });
+        });
+
     }
 })
-
 
 // post a book
 
@@ -44,22 +69,34 @@ router.post("/api/:userid/games/add", function (req, res) {
 
 // modelSwitch 
 function modelSwitch(modelName, userId, mediaId) {
-    switch(modelName) {
+    switch (modelName) {
         case "games":
             model = db.UsersGames;
-            conditional = {GameId: mediaId, UserId: userId}
+            conditional = {
+                GameId: mediaId,
+                UserId: userId
+            }
             break;
         case "books":
             model = db.UsersBooks;
-            conditional = {BookId: mediaId, UserId: userId}
+            conditional = {
+                BookId: mediaId,
+                UserId: userId
+            }
             break;
         case "movies":
             model = db.UsersMovies;
-            conditional = {MovieId: mediaId, UserId: userId}
+            conditional = {
+                MovieId: mediaId,
+                UserId: userId
+            }
             break;
         case "shows":
             model = db.UsersShows;
-            conditional = {ShowId: mediaId, UserId: userId}
+            conditional = {
+                ShowId: mediaId,
+                UserId: userId
+            }
             break;
     }
 }
@@ -72,14 +109,12 @@ router.put("/api/:userid/:model/:mediaid/complete", function (req, res) {
 
     modelSwitch(req.params.model, req.params.userid, req.params.mediaid);
 
-    model.update(
-        {
-            complete: true,
-            inProgress: false
-        },{
-            where: conditional
-        }
-    ).then(function (result) {
+    model.update({
+        complete: true,
+        inProgress: false
+    }, {
+        where: conditional
+    }).then(function (result) {
         res.json(result)
     })
 });
@@ -92,13 +127,11 @@ router.put("/api/:userid/:model/:mediaid/progress", function (req, res) {
 
     modelSwitch(req.params.model, req.params.userid, req.params.mediaid);
 
-    model.update(
-        {
-            inProgress: true
-        },{
-            where: conditional
-        }
-    ).then(function (result) {
+    model.update({
+        inProgress: true
+    }, {
+        where: conditional
+    }).then(function (result) {
         res.json(result)
     })
 });
@@ -111,10 +144,9 @@ router.delete("/api/:userid/:model/:mediaid/delete", function (req, res) {
 
     modelSwitch(req.params.model, req.params.userid, req.params.mediaid);
 
-    model.destroy({ 
-        where: conditional 
+    model.destroy({
+        where: conditional
     }).then(function (result) {
         res.json(result)
     })
 });
-
