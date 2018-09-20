@@ -3,8 +3,49 @@
     <h1>Efficiency is Intelligent Laziness</h1>
     <form class="searchForm">
         <div class="section">
-        <img src="img/icons-05.png" class="icon"><input type="text" id="searchQuery" placeholder="Search movies, shows, games, books">
+            <div class="dropdown">
+                <button id="activeCategory" class="dropbtn" value="movies">Media</button>
+                <div class="dropdown-content">
+                    <h3 class="dropdownCategory" value="movies">Movies</h3>
+                    <h3 class="dropdownCategory" value="shows">Shows</h3>
+                    <h3 class="dropdownCategory" value="games">Games</h3>
+                    <h3 class="dropdownCategory" value="books">Books</h3>
+                </div>
+            </div>
+            <input type="text" id="searchQuery" placeholder="Search movies, shows, games, books">
+            <img src="/img/icons-05.png" class="icon">
         </div>
     </form>
 
 </div>
+
+<script>
+    var currentCategory;
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+    function assignValue(categoryVal, callback) {
+        $("#activeCategory").attr("value", "")
+        $("#activeCategory").attr("value", categoryVal)
+        callback(categoryVal)
+    }
+    function render(categoryVal) {
+        var name = capitalizeFirstLetter(categoryVal)
+        $("#activeCategory").text(name)
+    }
+    $(".dropdownCategory").on("click",
+        function () {
+            currentCategory = $(this).attr("value")
+            console.log(currentCategory)
+            assignValue(currentCategory, render)
+        }
+    )
+    $(".searchForm").on("submit", function (event) {
+        event.preventDefault();
+
+        var searchType = $("#activeCategory").val();
+        var query = $("#searchQuery").val();
+
+        location.assign("/search/" + searchType + "/" + query);
+    })
+</script>

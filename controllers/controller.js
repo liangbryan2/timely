@@ -69,15 +69,22 @@ router.get("/login", function (req, res) {
     return;
 })
 router.post("/login", function (req, res) {
-    auth.signInWithEmailAndPassword(req.body.email, req.body.password).catch(function (error) {
+    auth.signInWithEmailAndPassword(req.body.email, req.body.password).then(function (user) {
+        if (user) {
+            res.send("logged in");
+        }
+    }).catch(function (error) {
         console.log(error.code)
     });
-    res.send("");
 })
 
 var newUser;
 router.post("/signup", function (req, res) {
-    auth.createUserWithEmailAndPassword(req.body.email, req.body.password).catch(function (error) {
+    auth.createUserWithEmailAndPassword(req.body.email, req.body.password).then(function(user) {
+        if (user) {
+            res.send("user created");
+        }
+    }).catch(function (error) {
         console.log(error.code);
     })
     newUser = {
@@ -85,7 +92,6 @@ router.post("/signup", function (req, res) {
         name: req.body.name,
         imgUrl: req.body.imgUrl
     }
-    res.send("user created");
 });
 
 router.put("/logout", function (req, res) {
@@ -151,7 +157,8 @@ router.get("/dashboard/", function (req, res) {
                     imgUrl: result.Movies[i].imgUrl,
                     minutes: convertTime(movieMin),
                     inProgress: result.Movies[i].UsersMovies.inProgress,
-                    type: "movies"
+                    type: "movies",
+                    complete: result.Movies[i].UsersMovies.complete
                 }
                 movieArr.push(movie);
             }
@@ -170,7 +177,8 @@ router.get("/dashboard/", function (req, res) {
                     imgUrl: result.Games[i].imgUrl,
                     minutes: convertTime(gameMin),
                     inProgress: result.Games[i].UsersGames.inProgress,
-                    type: "games"
+                    type: "games",
+                    complete: result.Games[i].UsersGames.complete
                 }
                 gameArr.push(game);
             }
@@ -188,7 +196,8 @@ router.get("/dashboard/", function (req, res) {
                     imgUrl: result.Books[i].imgUrl,
                     minutes: convertTime(bookMin),
                     inProgress: result.Books[i].UsersBooks.inProgress,
-                    type: "books"
+                    type: "books",
+                    complete: result.Books[i].UsersBooks.complete
                 }
                 bookArr.push(book);
             }
@@ -206,7 +215,8 @@ router.get("/dashboard/", function (req, res) {
                     imgUrl: result.Shows[i].imgUrl,
                     minutes: convertTime(showMin),
                     inProgress: result.Shows[i].UsersShows.inProgress,
-                    type: "shows"
+                    type: "shows",
+                    complete: result.Shows[i].UsersShows.complete
                 }
                 showArr.push(show);
 

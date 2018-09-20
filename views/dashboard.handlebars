@@ -19,7 +19,21 @@
     </div>
 
     <div class="dashboardMain">
-
+        <form class="searchForm">
+            <div class="section">
+                <div class="dropdown">
+                    <button id="activeCategory" class="dropbtn" value="movies">Media</button>
+                    <div class="dropdown-content">
+                        <h3 class="dropdownCategory" value="movies">Movies</h3>
+                        <h3 class="dropdownCategory" value="shows">Shows</h3>
+                        <h3 class="dropdownCategory" value="games">Games</h3>
+                        <h3 class="dropdownCategory" value="books">Books</h3>
+                    </div>
+                </div>
+                <input type="text" id="searchQuery" placeholder="Search movies, shows, games, books">
+                <img src="/img/icons-05.png" class="icon">
+            </div>
+        </form>
         <div class="dashRow2">
             <div class="statsRow">
                 <div class="statBox" value="moviesDash">
@@ -46,8 +60,8 @@
             <div class="container">
                 <div class="dashSection" id="currentMedia">
                     {{#each inProgress}}
-                    <div class="currentMediaIcon"
-                    style="background: linear-gradient(to top right, rgba(255, 84, 94, .7), rgba(255, 255, 255,.3)), url('{{this.imgUrl}}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-blend-mode: screen;" data-type="{{ this.type }}" data-id="{{this.id}}"></div>
+                    <div class="currentMediaIcon" style="background: linear-gradient(to top right, rgba(255, 84, 94, .7), rgba(255, 255, 255,.3)), url('{{this.imgUrl}}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-blend-mode: screen;"
+                        data-type="{{ this.type }}" data-id="{{this.id}}"></div>
                     <div class="currentMediaText">
                         <h2 class="blueLarge">{{this.name}}</h2>
                         <h2 class="largeThumbTime" data-min="">{{this.minutes}}</h2>
@@ -58,7 +72,7 @@
                     <canvas id="myChart" width="340" height="340"></canvas>
                     <div class="totalLogged">
                         <h2>Total time in queue: <span id="totalTimeLogged" class="boldBlue" data-min='{{totalMin}}'></span></h2>
-                        
+
                     </div>
                 </div>
             </div>
@@ -71,15 +85,19 @@
                     </div>
                     <div class="thumbnailBox">
                         {{#each backlog}}
-                        <div class="mediaThumbnail" style="background: linear-gradient(to top left, rgba(244, 158, 76, .7), rgba(255, 255, 255,.3)), url('{{this.imgUrl}}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-blend-mode: screen;" data-type="{{ this.type }}" data-id="{{this.id}}">
+                        {{#unless this.complete}}
+                        <div class="mediaThumbnail" style="background: linear-gradient(to top left, rgba(244, 158, 76, .7), rgba(255, 255, 255,.3)), url('{{this.imgUrl}}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-blend-mode: screen;"
+                            data-type="{{ this.type }}" data-id="{{this.id}}">
                             <div class="changeToCurrent">
                                 <h3 class="currentToggle" value="false">Make Current Media</h3>
                             </div>
-                            <div class="mediaThumbnailText">                               <h4 class="mediaThumbnailSubtitle">{{this.minutes}}</h4>
+                            <div class="mediaThumbnailText">
+                                <h4 class="mediaThumbnailSubtitle">{{this.minutes}}</h4>
                                 <h3 class="mediaThumbnailTitle">{{this.name}}</h3>
- 
+
                             </div>
                         </div>
+                        {{/unless}}
                         {{/each}}
                     </div>
                 </div>
@@ -100,7 +118,7 @@
 <script type="text/javascript">
 
     // Set backlog media as "in progress"
-    $(".mediaThumbnail").on("click", function(event) {
+    $(".mediaThumbnail").on("click", function (event) {
         event.preventDefault();
 
         var mediaType = $(this).attr("data-type");
@@ -108,7 +126,7 @@
 
         $.ajax("/api/" + mediaType + "/" + mediaId + "/progress", {
             type: "PUT"
-        }).then(function(result) {
+        }).then(function (result) {
             console.log("Media in progress");
             location.reload();
         })
@@ -116,7 +134,7 @@
     })
 
     // Set "in progress" media as "complete"
-    $(".currentMediaIcon").on("click", function(event) {
+    $(".currentMediaIcon").on("click", function (event) {
         event.preventDefault();
 
         var mediaType = $(this).attr("data-type");
@@ -124,7 +142,7 @@
 
         $.ajax("/api/" + mediaType + "/" + mediaId + "/complete", {
             type: "PUT"
-        }).then(function(result) {
+        }).then(function (result) {
             console.log("Media Complete");
             location.reload();
         })
@@ -140,21 +158,21 @@
     })
 
     function convertTime(minutes) {
-        var time = minutes/60
-        var hours = Math.floor( minutes / 60);
+        var time = minutes / 60
+        var hours = Math.floor(minutes / 60);
         var minutes = minutes % 60;
         var timeString = hours + "h " + minutes + "m"
         return timeString
     }
 
-	var movieStats = $("#movieStats").attr("data-min")
-	movieStats = parseInt(movieStats)
+    var movieStats = $("#movieStats").attr("data-min")
+    movieStats = parseInt(movieStats)
     var gameStats = $("#gameStats").attr("data-min")
-	gameStats = parseInt(gameStats)
+    gameStats = parseInt(gameStats)
     var showStats = $("#showStats").attr("data-min")
-	showStats = parseInt(showStats)
+    showStats = parseInt(showStats)
     var bookStats = $("#bookStats").attr("data-min")
-	bookStats = parseInt(bookStats)
+    bookStats = parseInt(bookStats)
 
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
@@ -198,7 +216,7 @@
 
     function renderTotalTime(time) {
         var totalTime = convertTime(time);
-        $("#totalTimeLogged").html(totalTime);   
+        $("#totalTimeLogged").html(totalTime);
     }
 
     renderTotalTime($("#totalTimeLogged").attr("data-min"))

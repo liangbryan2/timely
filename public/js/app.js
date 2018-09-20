@@ -12,7 +12,11 @@ $(document).ready(function () {
             type: "POST",
             data: newUser
         }).then(function (result) {
-            console.log(result);
+            if (result) {
+                setTimeout(function () {
+                    window.location = "/dashboard"
+                }, 1500);
+            }
         })
     })
 
@@ -34,9 +38,12 @@ $(document).ready(function () {
             type: "POST",
             data: user
         }).then(function (result) {
-            setTimeout(function () {
-                window.location = "/dashboard"
-            }, 1500);
+            console.log("front end result", result);
+            if (result) {
+                setTimeout(function () {
+                    window.location = "/dashboard"
+                }, 1500);
+            }
         })
     })
 
