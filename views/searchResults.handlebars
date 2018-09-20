@@ -34,9 +34,13 @@
                     data-id="{{items.[0].apiId}}" data-time="{{items.[0].time}}" data-imgUrl="{{items.[0].imgUrl}}" data-type="{{items.[0].type}}">
                     <h1>{{items.[0].name}}</h1>
                     <h2 class="largeMinutes">{{items.[0].time}} min</h2>
+<<<<<<< HEAD
                     <div class="largeThumbSubtext">
                         <h2 id="addLargetoDB">Add to Database</h2>
                     </div>
+=======
+                    <div class="largeThumbSubtext">  <h2 id="addLargetoDB">Add to Database</h2></div>
+>>>>>>> 52b2152dfcc642c5592525562d370db19d284325
                 </div>
             </div>
         </div>
@@ -44,6 +48,7 @@
 
             <div class="searchResultsReturn">
 
+<<<<<<< HEAD
                 {{#each items}} {{#unless @first}}
                 <div class="searchResultThumb" style="background:linear-gradient(to top left, rgba(142, 208, 129,1),rgba(255, 255, 255,.3)), url({{imgUrl}}); background-blend-mode: screen; background-size: cover; background-repeat: no-repeat; background-position: center; ">
                     <div class="addToDB" data-name="{{name}}" data-len-attr-1="{{lengthAttr1}}" data-len-attr-2="{{lengthAttr2}}" data-id="{{apiId}}"
@@ -51,6 +56,16 @@
                         <h2>Add </h2>
                         <h1>{{name}}</h1>
                         <h2>{{time}} min</h2>
+=======
+                {{#each items}}
+                {{#unless @first}}
+                    <div class="searchResultThumb" style="background:linear-gradient(to top left, rgba(142, 208, 129,1),rgba(255, 255, 255,.3)), url({{imgUrl}}); background-blend-mode: screen; background-size: cover; background-repeat: no-repeat; background-position: center; ">
+                        <div class="addToDB" data-name="{{name}}" data-len-attr-1="{{lengthAttr1}}" data-len-attr-2="{{lengthAttr2}}" data-id="{{apiId}}" data-time="{{time}}" data-imgUrl="{{imgUrl}}" data-type="{{type}}">
+                            <h2>Add </h2>
+                            <h1>{{name}}</h1>
+                            <h2>{{time}} min</h2> 
+                        </div>
+>>>>>>> 52b2152dfcc642c5592525562d370db19d284325
                     </div>
                 </div>
                 {{/unless}} {{/each}}
@@ -84,7 +99,23 @@
 
     console.log("current search category " + currentCategory)
 
+<<<<<<< HEAD
     $(".searchForm").on("submit", function (event) {
+=======
+    $(".addToDB").on("click", function(){
+        var addName = $(this).attr("data-name");
+        $(this).html(addName + " has been successfully added to your back log")
+        $(".searchResultsWrap").css("animation", ".5s fadeOut forwards")
+                  window.location.href = "/dashboard"
+        setTimeout(function(){
+  
+        }, 1000)
+    })
+
+
+    // Pushing to Database //
+    $(".addToDB").on("click", function (event) {
+>>>>>>> 52b2152dfcc642c5592525562d370db19d284325
         event.preventDefault();
 
         var searchType = $("#activeCategory").val();

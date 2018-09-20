@@ -1,3 +1,7 @@
+<div class="headerType" style="animation: 1s hideTop forwards">
+    <h1>Time.ly</h1>
+</div>
+
 <div class="dashboardWrap">
 
     <div class="navigate">
@@ -63,6 +67,7 @@
                         <h1>Active Media</h1>
                     </div>
                     {{#each inProgress}}
+<<<<<<< HEAD
                     <div class="currentMediaWrap">
                         <div class="currentMediaIcon" style="background: linear-gradient(to top right, rgba(255, 84, 94, .7), rgba(255, 255, 255,.3)), url('{{this.imgUrl}}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-blend-mode: screen;"
                             data-type="{{ this.type }}" data-id="{{this.id}}"></div>
@@ -72,6 +77,13 @@
                             <h2 class="largeThumbTime" data-min="">{{this.minutes}}</h2>
                         </div>
 
+=======
+                    <div class="currentMediaIcon"
+                    style="background: linear-gradient(to top right, rgba(255, 84, 94, .7), rgba(255, 255, 255,.3)), url('{{this.imgUrl}}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-blend-mode: screen;" data-type="{{ this.type }}" data-id="{{this.id}}"></div>
+                    <div class="currentMediaText">
+                        <h2 class="blueLarge">{{this.name}}</h2>
+                        <h2 class="largeThumbTime" data-min="">{{this.minutes}}</h2>
+>>>>>>> 52b2152dfcc642c5592525562d370db19d284325
                     </div>
 
                     {{/each}}
@@ -101,6 +113,7 @@
                         <h1>Your Back Log</h1>
                     </div>
                     <div class="thumbnailBox">
+<<<<<<< HEAD
                         {{#each backlog}} {{#unless this.complete}}
                         <div class="mediaThumbnail" style="background: linear-gradient(to top left, rgba(244, 158, 76, .7), rgba(255, 255, 255,.3)), url('{{this.imgUrl}}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-blend-mode: screen;"
                             data-type="{{ this.type }}" data-id="{{this.id}}">
@@ -111,6 +124,16 @@
                                 <h4 class="mediaThumbnailSubtitle">{{this.minutes}}</h4>
                                 <h3 class="mediaThumbnailTitle">{{this.name}}</h3>
 
+=======
+                        {{#each backlog}}
+                        <div class="mediaThumbnail" style="background: linear-gradient(to top left, rgba(244, 158, 76, .7), rgba(255, 255, 255,.3)), url('{{this.imgUrl}}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-blend-mode: screen;" data-type="{{ this.type }}" data-id="{{this.id}}">
+                            <div class="changeToCurrent">
+                                <h3 class="currentToggle" value="false">Make Current Media</h3>
+                            </div>
+                            <div class="mediaThumbnailText">                               <h4 class="mediaThumbnailSubtitle">{{this.minutes}}</h4>
+                                <h3 class="mediaThumbnailTitle">{{this.name}}</h3>
+ 
+>>>>>>> 52b2152dfcc642c5592525562d370db19d284325
                             </div>
                         </div>
                         {{/unless}} {{/each}}
@@ -150,7 +173,11 @@
 <script type="text/javascript">
 
     // Set backlog media as "in progress"
+<<<<<<< HEAD
     $(".mediaThumbnail").on("click", function (event) {
+=======
+    $(".mediaThumbnail").on("click", function(event) {
+>>>>>>> 52b2152dfcc642c5592525562d370db19d284325
         event.preventDefault();
 
         var mediaType = $(this).attr("data-type");
@@ -158,12 +185,17 @@
 
         $.ajax("/api/" + mediaType + "/" + mediaId + "/progress", {
             type: "PUT"
+<<<<<<< HEAD
         }).then(function (result) {
+=======
+        }).then(function(result) {
+>>>>>>> 52b2152dfcc642c5592525562d370db19d284325
             console.log("Media in progress");
             location.reload();
         })
 
     })
+<<<<<<< HEAD
 
     // Set "in progress" media as "complete"
     $(".currentMediaIcon").on("click", function (event) {
@@ -175,6 +207,19 @@
         $.ajax("/api/" + mediaType + "/" + mediaId + "/complete", {
             type: "PUT"
         }).then(function (result) {
+=======
+
+    // Set "in progress" media as "complete"
+    $(".currentMediaIcon").on("click", function(event) {
+        event.preventDefault();
+
+        var mediaType = $(this).attr("data-type");
+        var mediaId = $(this).attr("data-id");
+
+        $.ajax("/api/" + mediaType + "/" + mediaId + "/complete", {
+            type: "PUT"
+        }).then(function(result) {
+>>>>>>> 52b2152dfcc642c5592525562d370db19d284325
             console.log("Media Complete");
             location.reload();
         })
@@ -208,6 +253,7 @@
         }
     }
 
+<<<<<<< HEAD
     var movieStats = $("#movieStats").attr("data-min")
     movieStats = parseInt(movieStats)
     var gameStats = $("#gameStats").attr("data-min")
@@ -216,6 +262,16 @@
     showStats = parseInt(showStats)
     var bookStats = $("#bookStats").attr("data-min")
     bookStats = parseInt(bookStats)
+=======
+	var movieStats = $("#movieStats").attr("data-min")
+	movieStats = parseInt(movieStats)
+    var gameStats = $("#gameStats").attr("data-min")
+	gameStats = parseInt(gameStats)
+    var showStats = $("#showStats").attr("data-min")
+	showStats = parseInt(showStats)
+    var bookStats = $("#bookStats").attr("data-min")
+	bookStats = parseInt(bookStats)
+>>>>>>> 52b2152dfcc642c5592525562d370db19d284325
 
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
