@@ -27,13 +27,11 @@
         <div class="srbCol1">
             <div class="title"></div>
             <div class="srb-largeThumb" style="background:linear-gradient(to top right, rgba(255, 84, 94, .7),rgba(255, 255, 255,.3)), url({{items.[0].imgUrl}}); background-blend-mode: screen; background-size: cover; background-repeat: no-repeat; background-position: center;">
-                <div class="addToDB" data-name="{{items.[0].name}}" data-len-attr-1="{{items.[0].lengthAttr1}}"
-                    data-len-attr-2="{{items.[0].lengthAttr2}}" data-id="{{items.[0].apiId}}" data-time="{{items.[0].time}}"
-                    data-imgUrl="{{items.[0].imgUrl}}" data-type="{{items.[0].type}}">
+                <div class="addToDB" data-name="{{items.[0].name}}" data-len-attr-1="{{items.[0].lengthAttr1}}" data-len-attr-2="{{items.[0].lengthAttr2}}"
+                    data-id="{{items.[0].apiId}}" data-time="{{items.[0].time}}" data-imgUrl="{{items.[0].imgUrl}}" data-type="{{items.[0].type}}">
                 </div>
-                <div class="text" id="bigResult" data-name="{{items.[0].name}}" data-len-attr-1="{{items.[0].lengthAttr1}}"
-                    data-len-attr-2="{{items.[0].lengthAttr2}}" data-id="{{items.[0].apiId}}" data-time="{{items.[0].time}}"
-                    data-imgUrl="{{items.[0].imgUrl}}" data-type="{{items.[0].type}}">
+                <div class="text" id="bigResult" data-name="{{items.[0].name}}" data-len-attr-1="{{items.[0].lengthAttr1}}" data-len-attr-2="{{items.[0].lengthAttr2}}"
+                    data-id="{{items.[0].apiId}}" data-time="{{items.[0].time}}" data-imgUrl="{{items.[0].imgUrl}}" data-type="{{items.[0].type}}">
                     <h1>{{items.[0].name}}</h1>
                     <h2 class="largeMinutes">{{items.[0].time}} min</h2>
                     <div class="largeThumbSubtext">
@@ -46,18 +44,16 @@
 
             <div class="searchResultsReturn">
 
-                {{#each items}}
-                {{#unless @first}}
+                {{#each items}} {{#unless @first}}
                 <div class="searchResultThumb" style="background:linear-gradient(to top left, rgba(142, 208, 129,1),rgba(255, 255, 255,.3)), url({{imgUrl}}); background-blend-mode: screen; background-size: cover; background-repeat: no-repeat; background-position: center; ">
-                    <div class="addToDB" data-name="{{name}}" data-len-attr-1="{{lengthAttr1}}" data-len-attr-2="{{lengthAttr2}}"
-                        data-id="{{apiId}}" data-time="{{time}}" data-imgUrl="{{imgUrl}}" data-type="{{type}}">
+                    <div class="addToDB" data-name="{{name}}" data-len-attr-1="{{lengthAttr1}}" data-len-attr-2="{{lengthAttr2}}" data-id="{{apiId}}"
+                        data-time="{{time}}" data-imgUrl="{{imgUrl}}" data-type="{{type}}">
                         <h2>Add </h2>
                         <h1>{{name}}</h1>
                         <h2>{{time}} min</h2>
                     </div>
                 </div>
-                {{/unless}}
-                {{/each}}
+                {{/unless}} {{/each}}
 
             </div>
         </div>
@@ -152,7 +148,7 @@
 
     }
 
-     function exitAnimation(element) {
+    function exitAnimation(element) {
         var addName = $(element).attr("data-name");
         $(element).html(addName + " has been successfully added to your back log")
         $(".searchResultsWrap").css("animation", ".5s fadeOut forwards")

@@ -20,6 +20,7 @@ h1 {
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 40px 40px 20px;
+    z-index: 10;
 }
 
 .signInWrap .header {
@@ -37,7 +38,6 @@ h1 {
 
 .signInWrap .header h2 {
     margin: 10px 0;
-    font-style: italic;
     font-size: 20px;
 }
 
@@ -70,7 +70,7 @@ h1 {
 }
 
 .signInWrap .icon {
-    margin: 7.5px;
+    margin: 10.5px;
 }
 
 .icon {
@@ -101,21 +101,26 @@ h1 {
 #signUp {
     background-color: #266DD3;
     transition: .2s ease;
+    border: 3px solid #266DD3;
 }
 
 #signUp:hover {
-    color: #16549E;
-    background-color: #BFD9EF;
+    background-color: white;
+    color: #266DD3;
+    border: 3px solid #266DD3;
+    
 }
 
 #signIn {
     background-color: #A0C2EA;
     transition: .2s ease;
+    border: 3px solid #A0C2EA;
 }
 
 #signIn:hover {
-    background-color: #BFD9EF;
-    color: #16549E;
+    background-color: white;
+    color: #266DD3;
+    border: 3px solid #266DD3;
 }
 
 .searchWrap {
@@ -126,6 +131,7 @@ h1 {
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 40px;
+    z-index: 10;
 }
 
 .searchWrap input {
@@ -144,19 +150,17 @@ h1 {
     transition: .2s ease;
 }
 
-.searchWrap .icon {
-    margin: 7.5px;
-}
-
 #returningSignIn {
     background-color: #266DD3;
     width: 100%;
     transition: .2s ease;
+    border: 3px solid #266DD3;
 }
 
 #returningSignIn:hover {
-    background-color: #70ACE8;
-    color: black;
+    background-color: white;
+    color: #266DD3;
+    border: 3px solid #266DD3;
 }
 
 .dropbtn {
@@ -252,3 +256,71 @@ h1 {
     }
 
 }
+
+.signInWallpaper2 {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    background-image: url(img/moviesedit1.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@keyframes opacityOut {
+    0% {
+        opacity: 1
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+@keyframes opacityIn {
+    0% {
+        opacity: 0
+    }
+
+    100% {
+        opacity: 1
+    }
+}
+
+#wall2 {
+    background-image: url(img/gamesedit1.jpg)
+}
+
+.modalError {
+    height: 100vh;
+    width: 100%;
+    z-index: 40;
+    display: none;
+}
+
+.modalError .text {
+    background-color: white;
+    padding: 20px;
+    border: 3px solid red;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.modalError .text h1 {
+    color: red;
+}
+
+.modalError .background {
+    height: 100vh;
+    width: 100%;
+    background-image: url(img/showsedit1.jpg);
+}
+
+.landingWrap {
+    animation: 1s fadeIn forwards;
+    height: 100vh;
+    width: 100%;
+}
+

@@ -147,7 +147,7 @@ body {
 
 .dashRow3 .currentMediaIcon {
     width: 200px;
-    height: 250px;
+    height: 300px;
     background-color: darkgray;
     margin: 0 auto;
 }
@@ -211,6 +211,23 @@ body {
 }
 
 .backlog .head {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px
+}
+
+#currentMedia .head h1 {
+    font-size: 25px;
+    font-weight: 900;
+    color: #266DD3;
+}
+
+#currentMedia h2 {
+    padding: 3px;
+    background-color: white;
+}
+
+#currentMedia .head {
     display: flex;
     justify-content: space-between;
     padding: 10px
@@ -336,3 +353,113 @@ border-bottom: 3px solid #266DD3;
     overflow-x: hidden;
 }
 
+.searchWrap {
+    width: 800px;
+    background-color: #F4F4F4;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+}
+
+.searchWrap input {
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    background-color: white;
+    font-size: 15px
+}
+
+.searchWrap .section {
+    margin: 15px 0;
+    display: flex;
+    background-color: white;
+    border-bottom: 3px solid white;
+    transition: .2s ease;
+}
+
+.searchWrap .icon {
+    margin: 10.5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.dropdown2 {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+}
+
+.dropdown2-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    z-index: 1;
+    height: 0;
+    transition: .2s ease;
+    border-top: 3px solid #266DD3;
+}
+
+.dropdown2-content h3 {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+}
+
+.dropdown2-content h3:hover {
+    background-color: #70ACE8;
+    color: white;
+}
+
+.dropdown2:hover .dropdown2-content {
+    display: flex;
+    flex-direction: column-reverse;
+    min-width: 100px;
+    height: 160px;
+    color: white;
+}
+
+.dropdown2:hover .dropbtn {
+    background-color: #266DD3;
+    color: white;
+}
+.dropDown2 .icon {
+    height: 30px;
+    width: 30px;
+    margin: 5px;
+}
+
+.currentMediaWrap {
+    margin: 20px 0;
+}
+
+#completed {
+    padding: 10px;
+}
+
+.backlog h1 {
+    font-size: 25px;
+    font-weight: 900;
+    color: #266DD3;
+}
+
+.backlog h2 {
+    padding: 3px;
+    background-color: white;
+}
+
+.backlog .head {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px
+}

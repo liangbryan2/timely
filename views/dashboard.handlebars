@@ -1,7 +1,3 @@
-<div class="headerType" style="animation: 1s hideTop forwards">
-    <h1>Time.ly</h1>
-</div>
-
 <div class="dashboardWrap">
 
     <div class="navigate">
@@ -19,21 +15,25 @@
     </div>
 
     <div class="dashboardMain">
-        <form class="searchForm">
-            <div class="section">
-                <div class="dropdown">
-                    <button id="activeCategory" class="dropbtn" value="movies">Media</button>
-                    <div class="dropdown-content">
-                        <h3 class="dropdownCategory" value="movies">Movies</h3>
-                        <h3 class="dropdownCategory" value="shows">Shows</h3>
-                        <h3 class="dropdownCategory" value="games">Games</h3>
-                        <h3 class="dropdownCategory" value="books">Books</h3>
+        <div class="dashRow1">
+            <form class="searchForm">
+                <div class="section">
+                    <div class="dropdown2">
+                        <button id="activeCategory" class="dropbtn" value="movies">Media</button>
+                        <div class="dropdown2-content">
+                            <h3 class="dropdown2Category" value="movies">Movies</h3>
+                            <h3 class="dropdown2Category" value="shows">Shows</h3>
+                            <h3 class="dropdown2Category" value="games">Games</h3>
+                            <h3 class="dropdown2Category" value="books">Books</h3>
+                        </div>
                     </div>
+                    <input type="text" id="searchQuery" placeholder="Search movies, shows, games, books">
+                    <img src="/img/icons-05.png" class="icon">
                 </div>
-                <input type="text" id="searchQuery" placeholder="Search movies, shows, games, books">
-                <img src="/img/icons-05.png" class="icon">
-            </div>
-        </form>
+            </form>
+
+        </div>
+
         <div class="dashRow2">
             <div class="statsRow">
                 <div class="statBox" value="moviesDash">
@@ -59,24 +59,38 @@
 
             <div class="container">
                 <div class="dashSection" id="currentMedia">
-                    {{#each inProgress}}
-                    <div class="currentMediaIcon" style="background: linear-gradient(to top right, rgba(255, 84, 94, .7), rgba(255, 255, 255,.3)), url('{{this.imgUrl}}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-blend-mode: screen;"
-                        data-type="{{ this.type }}" data-id="{{this.id}}"></div>
-                    <div class="currentMediaText">
-                        <h2 class="blueLarge">{{this.name}}</h2>
-                        <h2 class="largeThumbTime" data-min="">{{this.minutes}}</h2>
+                    <div class="head">
+                        <h1>Active Media</h1>
                     </div>
+                    {{#each inProgress}}
+                    <div class="currentMediaWrap">
+                        <div class="currentMediaIcon" style="background: linear-gradient(to top right, rgba(255, 84, 94, .7), rgba(255, 255, 255,.3)), url('{{this.imgUrl}}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-blend-mode: screen;"
+                            data-type="{{ this.type }}" data-id="{{this.id}}"></div>
+
+                        <div class="currentMediaText">
+                            <h2 class="blueLarge">{{this.name}}</h2>
+                            <h2 class="largeThumbTime" data-min="">{{this.minutes}}</h2>
+                        </div>
+
+                    </div>
+
                     {{/each}}
                 </div>
-                <div class="dashSection">
-                    <canvas id="myChart" width="340" height="340"></canvas>
-                    <div class="totalLogged">
-                        <h2>Total time in queue: <span id="totalTimeLogged" class="boldBlue" data-min='{{totalMin}}'></span></h2>
-
+                <div class="dashSection backlog" id="completed">
+                    <div class="head">
+                        <h1>Completed Media</h1>
                     </div>
-                    <div class="totalLoggedComplete">
-                        <h2>Total time Complete: <span id="totalTimeLoggedComplete" class="boldBlue" data-min='{{totalMinComplete}}'></span></h2>
+                    <div class="thumbnailBox">
+                        {{#each backlog}} {{#if this.complete}}
+                        <div class="mediaThumbnail" style="background: linear-gradient(to top left, rgba(244, 158, 76, .7), rgba(255, 255, 255,.3)), url('{{this.imgUrl}}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-blend-mode: screen;"
+                            data-type="{{ this.type }}" data-id="{{this.id}}">
+                            <div class="mediaThumbnailText">
+                                <h4 class="mediaThumbnailSubtitle">{{this.minutes}}</h4>
+                                <h3 class="mediaThumbnailTitle">{{this.name}}</h3>
 
+                            </div>
+                        </div>
+                        {{/if}} {{/each}}
                     </div>
                 </div>
             </div>
@@ -84,12 +98,10 @@
             <div class="container">
                 <div class="dashSection backlog" id="backlog">
                     <div class="head">
-                        <h1>Current Back Log</h1>
-                        <h2 id="currentMediaType">MEDIA</h2>
+                        <h1>Your Back Log</h1>
                     </div>
                     <div class="thumbnailBox">
-                        {{#each backlog}}
-                        {{#unless this.complete}}
+                        {{#each backlog}} {{#unless this.complete}}
                         <div class="mediaThumbnail" style="background: linear-gradient(to top left, rgba(244, 158, 76, .7), rgba(255, 255, 255,.3)), url('{{this.imgUrl}}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-blend-mode: screen;"
                             data-type="{{ this.type }}" data-id="{{this.id}}">
                             <div class="changeToCurrent">
@@ -101,11 +113,27 @@
 
                             </div>
                         </div>
-                        {{/unless}}
-                        {{/each}}
+                        {{/unless}} {{/each}}
+                    </div>
+                </div>
+
+                <div class="dashSection">
+                    <canvas id="myChart" width="340" height="340"></canvas>
+                    <div class="totalLogged">
+                        <h2>Total time in queue:
+                            <span id="totalTimeLogged" class="boldBlue" data-min='{{totalMin}}'></span>
+                        </h2>
+
+                    </div>
+                    <div class="totalLoggedComplete">
+                        <h2>Total time Complete:
+                            <span id="totalTimeLoggedComplete" class="boldBlue" data-min='{{totalMinComplete}}'></span>
+                        </h2>
+
                     </div>
                 </div>
             </div>
+
 
         </div>
 
@@ -162,11 +190,22 @@
     })
 
     function convertTime(minutes) {
-        var time = minutes / 60
-        var hours = Math.floor(minutes / 60);
-        var minutes = minutes % 60;
-        var timeString = hours + "h " + minutes + "m"
-        return timeString
+        var days;
+        var hours;
+        var minutes;
+        var timeString;
+        if (minutes >= 1440) {
+            days = Math.floor(minutes / 1440);
+            hours = Math.floor((minutes / 60) % 24);
+            minutes = minutes % 60;
+            timeString = days + "d " + hours + "h " + minutes + "m"
+            return timeString
+        } else {
+            hours = Math.floor(minutes / 60);
+            minutes = minutes % 60;
+            timeString = hours + "h " + minutes + "m"
+            return timeString
+        }
     }
 
     var movieStats = $("#movieStats").attr("data-min")
@@ -230,14 +269,50 @@
         renderTotalTime()
     }
 
-    function renderTotalTime( element ) {
+    function renderTotalTime(element) {
         var timeData = element.attr("data-min")
-        var totalTime = convertTime( timeData )
+        var totalTime = convertTime(timeData)
 
         element.html(totalTime)
     }
 
     renderTotalTime($("#totalTimeLogged"))
     renderTotalTime($("#totalTimeLoggedComplete"))
+
+    var currentCategory;
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function assignValue(categoryVal, callback) {
+        $("#activeCategory").attr("value", "")
+        $("#activeCategory").attr("value", categoryVal)
+        callback(categoryVal)
+    }
+
+    function renderCategory(categoryVal) {
+        var name = capitalizeFirstLetter(categoryVal)
+        $("#activeCategory").text(name)
+    }
+
+    $(".dropdown2Category").on("click",
+        function () {
+            currentCategory = $(this).attr("value")
+            console.log(currentCategory)
+            assignValue(currentCategory, renderCategory)
+        }
+    )
+
+    $(".searchForm").on("submit", function (event) {
+        event.preventDefault();
+
+        var searchType = $("#activeCategory").val();
+        var query = $("#searchQuery").val();
+
+        if (query) {
+            location.assign("/search/" + searchType + "/" + query);
+        }
+
+    })
 
 </script>
