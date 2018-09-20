@@ -164,11 +164,7 @@ router.get("/dashboard/", function (req, res) {
                     id: result.Movies[i].id,
                     name: result.Movies[i].name,
                     imgUrl: result.Movies[i].imgUrl,
-<<<<<<< HEAD
                     minutes: convertTime(addMin),
-=======
-                    minutes: convertTime(movieMin),
->>>>>>> 52b2152dfcc642c5592525562d370db19d284325
                     inProgress: result.Movies[i].UsersMovies.inProgress,
                     type: "movies",
                     complete: result.Movies[i].UsersMovies.complete
@@ -193,16 +189,11 @@ router.get("/dashboard/", function (req, res) {
                     id: result.Games[i].id,
                     name: result.Games[i].name,
                     imgUrl: result.Games[i].imgUrl,
-<<<<<<< HEAD
                     minutes: convertTime(addMin),
-=======
-                    minutes: convertTime(gameMin),
->>>>>>> 52b2152dfcc642c5592525562d370db19d284325
                     inProgress: result.Games[i].UsersGames.inProgress,
                     type: "games",
                     complete: result.Games[i].UsersGames.complete
                 }
-                
                 gameArr.push(game);
             }
         }
@@ -223,11 +214,7 @@ router.get("/dashboard/", function (req, res) {
                     id: result.Books[i].id,
                     name: result.Books[i].name,
                     imgUrl: result.Books[i].imgUrl,
-<<<<<<< HEAD
                     minutes: convertTime(addMin),
-=======
-                    minutes: convertTime(bookMin),
->>>>>>> 52b2152dfcc642c5592525562d370db19d284325
                     inProgress: result.Books[i].UsersBooks.inProgress,
                     type: "books",
                     complete: result.Books[i].UsersBooks.complete
@@ -252,11 +239,7 @@ router.get("/dashboard/", function (req, res) {
                     id: result.Shows[i].id,
                     name: result.Shows[i].name,
                     imgUrl: result.Shows[i].imgUrl,
-<<<<<<< HEAD
                     minutes: convertTime(addMin),
-=======
-                    minutes: convertTime(showMin),
->>>>>>> 52b2152dfcc642c5592525562d370db19d284325
                     inProgress: result.Shows[i].UsersShows.inProgress,
                     type: "shows",
                     complete: result.Shows[i].UsersShows.complete
