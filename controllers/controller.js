@@ -49,7 +49,6 @@ function convertTime(minutes) {
 
 }
 
-
 // Landing page
 router.get("/", function (req, res) {
     res.render("index");
@@ -64,10 +63,12 @@ router.post("/api/users", function (req, res) {
         res.json(result);
     })
 })
+
 router.get("/login", function (req, res) {
     res.render("signin");
     return;
 })
+
 router.post("/login", function (req, res) {
     auth.signInWithEmailAndPassword(req.body.email, req.body.password).then(function (user) {
         if (user) {
@@ -86,6 +87,7 @@ router.post("/signup", function (req, res) {
         }
     }).catch(function (error) {
         console.log(error.code);
+        res.send(error.code)
     })
     newUser = {
         userName: req.body.userName,

@@ -13,10 +13,19 @@ $(document).ready(function () {
             data: newUser
         }).then(function (result) {
             if (result) {
-                setTimeout(function () {
-                    window.location = "/search"
-                }, 1500);
-            }
+
+
+                if (result === "auth/invalid-email") {
+                    $(".modalError").css("display", "flex");
+                } else {
+                    $(".landingWrap").css("animation", "1s fadeOut forwards")
+                    setTimeout(function () {
+                        window.location = "/search"
+                    }, 500);
+                }
+            } 
+            console.log("app")
+            console.log(result)
         })
     })
 
@@ -25,6 +34,7 @@ $(document).ready(function () {
         $.ajax("/login", {
             type: "GET"
         }).then(function (result) {
+            $(".landingWrap").css("animation", "1s fadeOut forwards")
             window.location.replace("/login");
         })
     })
@@ -40,9 +50,13 @@ $(document).ready(function () {
         }).then(function (result) {
             console.log("front end result", result);
             if (result) {
+                $(".landingWrap").css("animation", "1s fadeOut forwards")
                 setTimeout(function () {
                     window.location = "/dashboard"
-                }, 1500);
+                }, 50);
+            } else {
+                $(".modalError").css("display","flex")
+                alert("error")
             }
         })
     })
@@ -54,7 +68,6 @@ $(document).ready(function () {
             console.log(result);
         })
     })
-
 
 
 })
