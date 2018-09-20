@@ -216,3 +216,39 @@ h1 {
 }
 /* 
 #FF595E */
+
+
+@keyframes fadeIn {
+    0% {
+        transform: scale(1.5);
+        opacity: 0
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1)
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        transform: scale(1);
+        opacity: 1
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(.75)
+    }
+}
+
+@keyframes hideTop {
+    80% {
+        top: 0
+    }
+
+    100% {
+        top: -80px;
+    }
+
+}

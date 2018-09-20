@@ -140,7 +140,7 @@ router.get("/dashboard/", function (req, res) {
                     id: result.Movies[i].id,
                     name: result.Movies[i].name,
                     imgUrl: result.Movies[i].imgUrl,
-                    minutes: convertTime(result.Movies[i].runtime),
+                    minutes: convertTime(movieMin),
                     inProgress: result.Movies[i].UsersMovies.inProgress,
                     type: "movies"
                 }
@@ -158,10 +158,11 @@ router.get("/dashboard/", function (req, res) {
                     id: result.Games[i].id,
                     name: result.Games[i].name,
                     imgUrl: result.Games[i].imgUrl,
-                    minutes: convertTime(result.Games[i].minutes),
+                    minutes: convertTime(gameMin),
                     inProgress: result.Games[i].UsersGames.inProgress,
                     type: "games"
                 }
+                
                 gameArr.push(game);
             }
         }
@@ -176,7 +177,7 @@ router.get("/dashboard/", function (req, res) {
                     id: result.Books[i].id,
                     name: result.Books[i].name,
                     imgUrl: result.Books[i].imgUrl,
-                    minutes: convertTime(result.Books[i].minutes),
+                    minutes: convertTime(bookMin),
                     inProgress: result.Books[i].UsersBooks.inProgress,
                     type: "shows"
                 }
@@ -194,7 +195,7 @@ router.get("/dashboard/", function (req, res) {
                     id: result.Shows[i].id,
                     name: result.Shows[i].name,
                     imgUrl: result.Shows[i].imgUrl,
-                    minutes: convertTime(result.Shows[i].minutes),
+                    minutes: convertTime(showMin),
                     inProgress: result.Shows[i].UsersShows.inProgress,
                     type: "books"
                 }

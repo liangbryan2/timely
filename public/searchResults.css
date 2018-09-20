@@ -29,14 +29,14 @@
     margin: 10px;
 }
 
-.searchBarWrap {
-
+.searchResultsWrap {
+    animation: 1s fadeIn forwards;
 }
 
 .searchResultsBox {
-    background-color: rgba(0,0,0,.3);
     height: 100%;
     width: 100%;
+    background: linear-gradient(to top,rgba(38,109,211.0), rgba(191, 217, 239, .5))
 }
 
 .searchResultsNav {
@@ -114,6 +114,10 @@
     flex-direction: column;
     height: 100%;
     width: 50%;
+    /* background-image: url(img/icons-12.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; */
 }
 
 .srbCol2 .row {
@@ -134,7 +138,7 @@
     height: 33.3%;
     width: 33.3%;
     position: relative;
-    filter: blur(4px);
+    filter: blur(0px);
     transition: .2s ease;
 }
 
@@ -292,3 +296,4 @@
     font-style: italic;
     font-size: 20px;
 }
+

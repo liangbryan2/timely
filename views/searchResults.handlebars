@@ -26,7 +26,7 @@
     <div class="searchResultsBox">
         <div class="srbCol1">
             <div class="title"></div>
-            <div class="srb-largeThumb" style="background:linear-gradient(to top right, rgba(142, 208, 129,1),rgba(255, 255, 255,.3)), url({{items.[0].imgUrl}}); background-blend-mode: screen; background-size: cover; background-repeat: no-repeat; background-position: center;">
+            <div class="srb-largeThumb" style="background:linear-gradient(to top right, rgba(255, 84, 94, .7),rgba(255, 255, 255,.3)), url({{items.[0].imgUrl}}); background-blend-mode: screen; background-size: cover; background-repeat: no-repeat; background-position: center;">
                 <div class="addToDB" data-name="{{items.[0].name}}" data-len-attr-1="{{items.[0].lengthAttr1}}" data-len-attr-2="{{items.[0].lengthAttr2}}"
                     data-id="{{items.[0].apiId}}" data-time="{{items.[0].time}}" data-imgUrl="{{items.[0].imgUrl}}" data-type="{{items.[0].type}}">
                 </div>
@@ -85,6 +85,11 @@
     $(".addToDB").on("click", function(){
         var addName = $(this).attr("data-name");
         $(this).html(addName + " has been successfully added to your back log")
+        $(".searchResultsWrap").css("animation", ".5s fadeOut forwards")
+                  window.location.href = "/dashboard"
+        setTimeout(function(){
+  
+        }, 1000)
     })
 
 
