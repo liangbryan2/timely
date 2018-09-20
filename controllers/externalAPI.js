@@ -21,7 +21,7 @@ var books = require('google-books-search');
 var omdbApi = require('omdb-client');
 var omdb = require("omdb");
 const MovieDb = require('moviedb-promise')
-const moviedb = new MovieDb("91433a6303c384292937cb016af9c4cd");
+const moviedb = new MovieDb(process.env.MOVIEDB_API);
 
 // ======================================================
 // general search
@@ -273,7 +273,7 @@ router.get("/books/:query", function (req, res) {
 
   var param = req.params.query;
   var options = {
-    key: "AIzaSyAgrzMs1uWe7UxhyOHG1lH0u7at5J8C-ic",
+    key: process.env.GOOGLEBOOKS_API,
     field: 'title',
     offset: 0,
     limit: 10,
