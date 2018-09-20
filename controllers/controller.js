@@ -1,11 +1,22 @@
 var express = require("express");
 var db = require("../models");
 var router = express.Router();
+var TVMaze = require('tvmaze');
+var tvm = new TVMaze();
 
+// // Game API
+var hltb = require('howlongtobeat');
+var hltbService = new hltb.HowLongToBeatService();
+
+//Books API
+var books = require('google-books-search');
+
+// //Movie API
+var omdbApi = require('omdb-client');
 // Initialize Firebase
 var firebase = require('firebase');
 var config = {
-    apiKey: "AIzaSyBrbP1WCO-E8ep4MKJZ9elEygpMHSomzck",
+    apiKey: process.env.FIREBASE_API,
     authDomain: "timely-a38bb.firebaseapp.com",
     databaseURL: "https://timely-a38bb.firebaseio.com",
     projectId: "timely-a38bb",
@@ -19,12 +30,22 @@ var auth = firebase.auth();
 var userId;
 
 function convertTime(minutes) {
-
-    var time = minutes / 60
-    var hours = Math.floor(minutes / 60);
-    var minutes = minutes % 60;
-    var timeString = hours + "h " + minutes + "m"
-    return timeString
+    var days;
+    var hours;
+    var minutes;
+    var timeString;
+    if (minutes >= 1440) {
+        days = Math.floor(minutes / 1440);
+        hours = Math.floor((minutes / 60) % 24);
+        minutes = minutes % 60;
+        timeString = days + "d " + hours + "h " + minutes + "m"
+        return timeString
+    } else {
+        hours = Math.floor(minutes / 60);
+        minutes = minutes % 60;
+        timeString = hours + "h " + minutes + "m"
+        return timeString
+    }
 
 }
 
@@ -43,17 +64,27 @@ router.post("/api/users", function (req, res) {
         res.json(result);
     })
 })
-
+router.get("/login", function (req, res) {
+    res.render("signin");
+    return;
+})
 router.post("/login", function (req, res) {
-    auth.signInWithEmailAndPassword(req.body.email, req.body.password).catch(function (error) {
+    auth.signInWithEmailAndPassword(req.body.email, req.body.password).then(function (user) {
+        if (user) {
+            res.send("logged in");
+        }
+    }).catch(function (error) {
         console.log(error.code)
     });
-    res.send("logged in");
 })
 
 var newUser;
 router.post("/signup", function (req, res) {
-    auth.createUserWithEmailAndPassword(req.body.email, req.body.password).catch(function (error) {
+    auth.createUserWithEmailAndPassword(req.body.email, req.body.password).then(function(user) {
+        if (user) {
+            res.send("user created");
+        }
+    }).catch(function (error) {
         console.log(error.code);
     })
     newUser = {
@@ -61,7 +92,6 @@ router.post("/signup", function (req, res) {
         name: req.body.name,
         imgUrl: req.body.imgUrl
     }
-    res.send("user created");
 });
 
 router.put("/logout", function (req, res) {
@@ -80,7 +110,6 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
                 newUser.firebaseId = firebaseUser.uid;
                 db.Users.create(newUser).then(function (result) {
                     userId = result.id
-                    console.log("new user userId = ", userId);
                     return;
                 })
             } else {
@@ -101,7 +130,8 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
 //===================================================================================
 // display dashboard
 //===================================================================================
-router.get("/dashboard/:media?", function (req, res) {
+
+router.get("/dashboard/", function (req, res) {
     db.Users.findOne({
         where: {
             id: userId
@@ -117,78 +147,107 @@ router.get("/dashboard/:media?", function (req, res) {
         }]
     }).then(function (result) {
         var movieMin = 0;
+        var movieMinComplete = 0;
         var movieArr = [];
         if (result.Movies[0]) {
             for (var i = 0; i < result.Movies.length; i++) {
-                movieMin += result.Movies[i].runtime
+                var addMin = parseInt(result.Movies[i].runtime)
+                if (result.Movies[i].UsersMovies.complete) {
+                    movieMinComplete += addMin
+                } else {
+                    movieMin += addMin
+                }
 
                 var movie = {
                     id: result.Movies[i].id,
                     name: result.Movies[i].name,
                     imgUrl: result.Movies[i].imgUrl,
-                    minutes: convertTime(result.Movies[i].runtime),
+                    minutes: convertTime(addMin),
                     inProgress: result.Movies[i].UsersMovies.inProgress,
-                    type: "movies"
+                    type: "movies",
+                    complete: result.Movies[i].UsersMovies.complete
                 }
                 movieArr.push(movie);
             }
 
         }
         var gameMin = 0;
+        var gameMinComplete = 0;
         var gameArr = [];
         if (result.Games[0]) {
             for (var i = 0; i < result.Games.length; i++) {
-                gameMin += result.Games[i].mainMinutes
+                var addMin = parseInt(result.Games[i].mainMinutes)
+                if (result.Games[i].UsersGames.complete) {
+                    gameMinComplete += addMin
+                } else {
+                    gameMin += addMin
+                }
 
                 var game = {
                     id: result.Games[i].id,
                     name: result.Games[i].name,
                     imgUrl: result.Games[i].imgUrl,
-                    minutes: convertTime(result.Games[i].minutes),
+                    minutes: convertTime(addMin),
                     inProgress: result.Games[i].UsersGames.inProgress,
-                    type: "games"
+                    type: "games",
+                    complete: result.Games[i].UsersGames.complete
                 }
                 gameArr.push(game);
             }
         }
 
         var bookMin = 0;
+        var bookMinComplete = 0;
         var bookArr = [];
         if (result.Books[0]) {
             for (var i = 0; i < result.Books.length; i++) {
-                bookMin += result.Books[i].minutes
+                var addMin = parseInt(result.Books[i].minutes)
+                if (result.Books[i].UsersBooks.complete) {
+                    bookMinComplete += addMin
+                } else {
+                    bookMin += addMin
+                }
 
                 var book = {
                     id: result.Books[i].id,
                     name: result.Books[i].name,
                     imgUrl: result.Books[i].imgUrl,
-                    minutes: convertTime(result.Books[i].minutes),
+                    minutes: convertTime(addMin),
                     inProgress: result.Books[i].UsersBooks.inProgress,
-                    type: "shows"
+                    type: "books",
+                    complete: result.Books[i].UsersBooks.complete
                 }
                 bookArr.push(book);
             }
 
         }
         var showMin = 0;
+        var showMinComplete = 0;
         var showArr = [];
         if (result.Shows[0]) {
             for (var i = 0; i < result.Shows.length; i++) {
-                showMin += result.Shows[i].minutes
+                var addMin = parseInt(result.Shows[i].minutes)
+                if (result.Shows[i].UsersShows.complete) {
+                    showMinComplete += addMin
+                } else {
+                    showMin += addMin
+                }
 
                 var show = {
                     id: result.Shows[i].id,
                     name: result.Shows[i].name,
                     imgUrl: result.Shows[i].imgUrl,
-                    minutes: convertTime(result.Shows[i].minutes),
+                    minutes: convertTime(addMin),
                     inProgress: result.Shows[i].UsersShows.inProgress,
-                    type: "books"
+                    type: "shows",
+                    complete: result.Shows[i].UsersShows.complete
                 }
                 showArr.push(show);
 
             }
         }
         var totalMin = gameMin + showMin + movieMin + bookMin;
+        var totalMinComplete = gameMinComplete + showMinComplete + movieMinComplete +bookMinComplete;
         var backlogArr = [];
         var inProgressArr = [];
         for (var i = 0; i < 10; i++) {
@@ -220,6 +279,7 @@ router.get("/dashboard/:media?", function (req, res) {
             showMin: showMin,
             bookMin: bookMin,
             totalMin: totalMin,
+            totalMinComplete: totalMinComplete,
             movies: movieArr,
             games: gameArr,
             books: bookArr,
@@ -231,6 +291,7 @@ router.get("/dashboard/:media?", function (req, res) {
         return;
     })
 })
+
 //===================================================================================
 // end
 //===================================================================================
@@ -399,5 +460,9 @@ router.post("/api/:model/add", function (req, res) {
 // end
 //===================================================================================
 
+// ==================
+// ==================
 
+// ==================
+// ==================
 module.exports = router;
