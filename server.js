@@ -1,4 +1,5 @@
 require('dotenv').config();
+// console.log(process.env.FIREBASE_API)
 var express = require("express");
 var bodyParser = require("body-parser");
 

@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express = require("express");
 var db = require("../models");
 var router = express.Router();
@@ -16,7 +17,7 @@ var omdbApi = require('omdb-client');
 // Initialize Firebase
 var firebase = require('firebase');
 var config = {
-    apiKey: process.env.FIREBASE_API,
+    apiKey: "AIzaSyBrbP1WCO-E8ep4MKJZ9elEygpMHSomzck",
     authDomain: "timely-a38bb.firebaseapp.com",
     databaseURL: "https://timely-a38bb.firebaseio.com",
     projectId: "timely-a38bb",
