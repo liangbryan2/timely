@@ -74,6 +74,10 @@
                         <h2>Total time in queue: <span id="totalTimeLogged" class="boldBlue" data-min='{{totalMin}}'></span></h2>
 
                     </div>
+                    <div class="totalLoggedComplete">
+                        <h2>Total time Complete: <span id="totalTimeLoggedComplete" class="boldBlue" data-min='{{totalMinComplete}}'></span></h2>
+
+                    </div>
                 </div>
             </div>
 
@@ -214,16 +218,26 @@
 
     renderNumbers(parseInt(movieStats), parseInt(gameStats), parseInt(showStats), parseInt(bookStats))
 
-    function renderTotalTime(time) {
-        var totalTime = convertTime(time);
-        $("#totalTimeLogged").html(totalTime);
-    }
+    // function renderTotalTime(time) {
+    //    var totalTime = convertTime(time);
+    //    $("#totalTimeLogged").html(totalTime);
+    // }
 
-    renderTotalTime($("#totalTimeLogged").attr("data-min"))
+    // renderTotalTime($("#totalTimeLogged").attr("data-min"))
 
     function render() {
         renderNumbers()
         renderTotalTime()
     }
+
+    function renderTotalTime( element ) {
+        var timeData = element.attr("data-min")
+        var totalTime = convertTime( timeData )
+
+        element.html(totalTime)
+    }
+
+    renderTotalTime($("#totalTimeLogged"))
+    renderTotalTime($("#totalTimeLoggedComplete"))
 
 </script>

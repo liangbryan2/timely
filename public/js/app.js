@@ -14,7 +14,7 @@ $(document).ready(function () {
         }).then(function (result) {
             if (result) {
                 setTimeout(function () {
-                    window.location = "/dashboard"
+                    window.location = "/search"
                 }, 1500);
             }
         })

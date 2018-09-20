@@ -97,133 +97,83 @@
         location.assign("/search/" + searchType + "/" + query);
     })
 
-    $(".addToDB").on("click", function () {
-        var addName = $(this).attr("data-name");
-        $(this).html(addName + " has been successfully added to your back log")
+    function databasePush(element) {
+
+        var mediaType = $(element).attr("data-type");
+
+        var sqlEntry = {}
+
+        if (mediaType === "books") {
+
+            sqlEntry.name = $(element).attr("data-name")
+            sqlEntry.pages = $(element).attr("data-len-attr-1")
+            sqlEntry.imgUrl = $(element).attr("data-imgUrl")
+            sqlEntry.gBooksId = $(element).attr("data-id")
+            sqlEntry.minutes = $(element).attr("data-time")
+
+        } else if (mediaType === "games") {
+
+            var completionistTime = $(element).attr("data-len-attr-2") * 60;
+
+            sqlEntry.name = $(element).attr("data-name");
+            sqlEntry.mainLength = $(element).attr("data-len-attr-1");
+            sqlEntry.completionistLength = $(element).attr("data-len-attr-2");
+            sqlEntry.imgUrl = $(element).attr("data-imgUrl");
+            sqlEntry.hltbID = $(element).attr("data-id");
+            sqlEntry.mainMinutes = $(element).attr("data-time");
+            sqlEntry.completeMinutes = completionistTime;
+
+        } else if (mediaType === "movies") {
+
+            sqlEntry.name = $(element).attr("data-name")
+            sqlEntry.runtime = $(element).attr("data-time")
+            sqlEntry.imgUrl = $(element).attr("data-imgUrl")
+            sqlEntry.imdbId = $(element).attr("data-id")
+
+        } else if (mediaType === "shows") {
+
+            sqlEntry.name = $(element).attr("data-name")
+            sqlEntry.episodes = $(element).attr("data-len-attr-1")
+            sqlEntry.runtime = $(element).attr("data-len-attr-2")
+            sqlEntry.imgUrl = $(element).attr("data-imgUrl")
+            sqlEntry.tvMazeID = $(element).attr("data-id")
+            sqlEntry.minutes = $(element).attr("data-time")
+
+        }
+
+        console.log(sqlEntry)
+
+        $.ajax("/api/" + mediaType + "/add", {
+            type: "POST",
+            data: sqlEntry
+        }).then(function (result) {
+            console.log("added game");
+        })
+
+    }
+
+     function exitAnimation(element) {
+        var addName = $(element).attr("data-name");
+        $(element).html(addName + " has been successfully added to your back log")
         $(".searchResultsWrap").css("animation", ".5s fadeOut forwards")
         setTimeout(function () {
             window.location.href = "/dashboard"
         }, 1000)
-    })
-
-    $("#bigResult").on("click", function () {
-        var addName = $(this).attr("data-name");
-        $(this).html(addName + " has been successfully added to your back log")
-        $(".searchResultsWrap").css("animation", ".5s fadeOut forwards")
-        setTimeout(function () {
-            window.location.href = "/dashboard"
-        }, 1000)
-    })
-
+    }
 
     // Pushing to Database //
     $(".addToDB").on("click", function (event) {
         event.preventDefault();
 
-        var mediaType = $(this).attr("data-type");
-
-        var sqlEntry = {}
-
-        if (mediaType === "books") {
-
-            sqlEntry.name = $(this).attr("data-name")
-            sqlEntry.pages = $(this).attr("data-len-attr-1")
-            sqlEntry.imgUrl = $(this).attr("data-imgUrl")
-            sqlEntry.gBooksId = $(this).attr("data-id")
-            sqlEntry.minutes = $(this).attr("data-time")
-
-        } else if (mediaType === "games") {
-
-            var completionistTime = $(this).attr("data-len-attr-2") * 60;
-
-            sqlEntry.name = $(this).attr("data-name");
-            sqlEntry.mainLength = $(this).attr("data-len-attr-1");
-            sqlEntry.completionistLength = $(this).attr("data-len-attr-2");
-            sqlEntry.imgUrl = $(this).attr("data-imgUrl");
-            sqlEntry.hltbID = $(this).attr("data-id");
-            sqlEntry.mainMinutes = $(this).attr("data-time");
-            sqlEntry.completeMinutes = completionistTime;
-
-        } else if (mediaType === "movies") {
-
-            sqlEntry.name = $(this).attr("data-name")
-            sqlEntry.runtime = $(this).attr("data-time")
-            sqlEntry.imgUrl = $(this).attr("data-imgUrl")
-            sqlEntry.imdbId = $(this).attr("data-id")
-
-        } else if (mediaType === "shows") {
-
-            sqlEntry.name = $(this).attr("data-name")
-            sqlEntry.episodes = $(this).attr("data-len-attr-1")
-            sqlEntry.runtime = $(this).attr("data-len-attr-2")
-            sqlEntry.imgUrl = $(this).attr("data-imgUrl")
-            sqlEntry.tvMazeID = $(this).attr("data-id")
-            sqlEntry.minutes = $(this).attr("data-time")
-
-        }
-
-        $.ajax("/api/" + mediaType + "/add", {
-            type: "POST",
-            data: sqlEntry
-        }).then(function (result) {
-            console.log("added game");
-        })
-
-
-    })
+        databasePush(this);
+        exitAnimation(this);
+    });
 
     $("#bigResult").on("click", function (event) {
         event.preventDefault();
 
-        var mediaType = $(this).attr("data-type");
-
-        var sqlEntry = {}
-
-        if (mediaType === "books") {
-
-            sqlEntry.name = $(this).attr("data-name")
-            sqlEntry.pages = $(this).attr("data-len-attr-1")
-            sqlEntry.imgUrl = $(this).attr("data-imgUrl")
-            sqlEntry.gBooksId = $(this).attr("data-id")
-            sqlEntry.minutes = $(this).attr("data-time")
-
-        } else if (mediaType === "games") {
-
-            var completionistTime = $(this).attr("data-len-attr-2") * 60;
-
-            sqlEntry.name = $(this).attr("data-name");
-            sqlEntry.mainLength = $(this).attr("data-len-attr-1");
-            sqlEntry.completionistLength = $(this).attr("data-len-attr-2");
-            sqlEntry.imgUrl = $(this).attr("data-imgUrl");
-            sqlEntry.hltbID = $(this).attr("data-id");
-            sqlEntry.mainMinutes = $(this).attr("data-time");
-            sqlEntry.completeMinutes = completionistTime;
-
-        } else if (mediaType === "movies") {
-
-            sqlEntry.name = $(this).attr("data-name")
-            sqlEntry.runtime = $(this).attr("data-time")
-            sqlEntry.imgUrl = $(this).attr("data-imgUrl")
-            sqlEntry.imdbId = $(this).attr("data-id")
-
-        } else if (mediaType === "shows") {
-
-            sqlEntry.name = $(this).attr("data-name")
-            sqlEntry.episodes = $(this).attr("data-len-attr-1")
-            sqlEntry.runtime = $(this).attr("data-len-attr-2")
-            sqlEntry.imgUrl = $(this).attr("data-imgUrl")
-            sqlEntry.tvMazeID = $(this).attr("data-id")
-            sqlEntry.minutes = $(this).attr("data-time")
-
-        }
-
-        $.ajax("/api/" + mediaType + "/add", {
-            type: "POST",
-            data: sqlEntry
-        }).then(function (result) {
-            console.log("added game");
-        })
-
-
+        databasePush(this);
+        exitAnimation(this);
     })
+
 </script>

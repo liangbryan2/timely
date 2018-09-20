@@ -16,7 +16,7 @@ var omdbApi = require('omdb-client');
 // Initialize Firebase
 var firebase = require('firebase');
 var config = {
-    apiKey: "AIzaSyBrbP1WCO-E8ep4MKJZ9elEygpMHSomzck",
+    apiKey: process.env.FIREBASE_API,
     authDomain: "timely-a38bb.firebaseapp.com",
     databaseURL: "https://timely-a38bb.firebaseio.com",
     projectId: "timely-a38bb",
@@ -130,6 +130,7 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
 //===================================================================================
 // display dashboard
 //===================================================================================
+
 router.get("/dashboard/", function (req, res) {
     db.Users.findOne({
         where: {
@@ -146,16 +147,22 @@ router.get("/dashboard/", function (req, res) {
         }]
     }).then(function (result) {
         var movieMin = 0;
+        var movieMinComplete = 0;
         var movieArr = [];
         if (result.Movies[0]) {
             for (var i = 0; i < result.Movies.length; i++) {
-                movieMin += result.Movies[i].runtime
+                var addMin = parseInt(result.Movies[i].runtime)
+                if (result.Movies[i].UsersMovies.complete) {
+                    movieMinComplete += addMin
+                } else {
+                    movieMin += addMin
+                }
 
                 var movie = {
                     id: result.Movies[i].id,
                     name: result.Movies[i].name,
                     imgUrl: result.Movies[i].imgUrl,
-                    minutes: convertTime(movieMin),
+                    minutes: convertTime(addMin),
                     inProgress: result.Movies[i].UsersMovies.inProgress,
                     type: "movies",
                     complete: result.Movies[i].UsersMovies.complete
@@ -165,17 +172,22 @@ router.get("/dashboard/", function (req, res) {
 
         }
         var gameMin = 0;
+        var gameMinComplete = 0;
         var gameArr = [];
         if (result.Games[0]) {
             for (var i = 0; i < result.Games.length; i++) {
                 var addMin = parseInt(result.Games[i].mainMinutes)
-                gameMin += addMin
+                if (result.Games[i].UsersGames.complete) {
+                    gameMinComplete += addMin
+                } else {
+                    gameMin += addMin
+                }
 
                 var game = {
                     id: result.Games[i].id,
                     name: result.Games[i].name,
                     imgUrl: result.Games[i].imgUrl,
-                    minutes: convertTime(gameMin),
+                    minutes: convertTime(addMin),
                     inProgress: result.Games[i].UsersGames.inProgress,
                     type: "games",
                     complete: result.Games[i].UsersGames.complete
@@ -185,16 +197,22 @@ router.get("/dashboard/", function (req, res) {
         }
 
         var bookMin = 0;
+        var bookMinComplete = 0;
         var bookArr = [];
         if (result.Books[0]) {
             for (var i = 0; i < result.Books.length; i++) {
-                bookMin += result.Books[i].minutes
+                var addMin = parseInt(result.Books[i].minutes)
+                if (result.Books[i].UsersBooks.complete) {
+                    bookMinComplete += addMin
+                } else {
+                    bookMin += addMin
+                }
 
                 var book = {
                     id: result.Books[i].id,
                     name: result.Books[i].name,
                     imgUrl: result.Books[i].imgUrl,
-                    minutes: convertTime(bookMin),
+                    minutes: convertTime(addMin),
                     inProgress: result.Books[i].UsersBooks.inProgress,
                     type: "books",
                     complete: result.Books[i].UsersBooks.complete
@@ -204,16 +222,22 @@ router.get("/dashboard/", function (req, res) {
 
         }
         var showMin = 0;
+        var showMinComplete = 0;
         var showArr = [];
         if (result.Shows[0]) {
             for (var i = 0; i < result.Shows.length; i++) {
-                showMin += result.Shows[i].minutes
+                var addMin = parseInt(result.Shows[i].minutes)
+                if (result.Shows[i].UsersShows.complete) {
+                    showMinComplete += addMin
+                } else {
+                    showMin += addMin
+                }
 
                 var show = {
                     id: result.Shows[i].id,
                     name: result.Shows[i].name,
                     imgUrl: result.Shows[i].imgUrl,
-                    minutes: convertTime(showMin),
+                    minutes: convertTime(addMin),
                     inProgress: result.Shows[i].UsersShows.inProgress,
                     type: "shows",
                     complete: result.Shows[i].UsersShows.complete
@@ -223,6 +247,7 @@ router.get("/dashboard/", function (req, res) {
             }
         }
         var totalMin = gameMin + showMin + movieMin + bookMin;
+        var totalMinComplete = gameMinComplete + showMinComplete + movieMinComplete +bookMinComplete;
         var backlogArr = [];
         var inProgressArr = [];
         for (var i = 0; i < 10; i++) {
@@ -254,6 +279,7 @@ router.get("/dashboard/", function (req, res) {
             showMin: showMin,
             bookMin: bookMin,
             totalMin: totalMin,
+            totalMinComplete: totalMinComplete,
             movies: movieArr,
             games: gameArr,
             books: bookArr,
@@ -265,6 +291,7 @@ router.get("/dashboard/", function (req, res) {
         return;
     })
 })
+
 //===================================================================================
 // end
 //===================================================================================
@@ -435,7 +462,6 @@ router.post("/api/:model/add", function (req, res) {
 
 // ==================
 // ==================
-
 
 // ==================
 // ==================

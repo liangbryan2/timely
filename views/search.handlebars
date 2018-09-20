@@ -42,10 +42,13 @@
     )
     $(".searchForm").on("submit", function (event) {
         event.preventDefault();
-
+        
         var searchType = $("#activeCategory").val();
         var query = $("#searchQuery").val();
 
+        if (query) {
         location.assign("/search/" + searchType + "/" + query);
+        }
+
     })
 </script>
