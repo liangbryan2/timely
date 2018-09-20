@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express = require("express");
 var bodyParser = require("body-parser");
 
@@ -19,7 +20,6 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 
-require('dotenv').config();
 
 app.engine("handlebars", exphbs({
     defaultLayout: "main"
