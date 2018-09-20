@@ -15,6 +15,7 @@
     "moment": "^2.22.2",
     "moviedb-promise": "^1.2.6",
     "mysql2": "^1.6.1",
+    "node-localstorage": "^1.3.1",
     "omdb": "^0.8.0",
     "omdb-client": "^2.0.0",
     "sequelize": "^4.38.1",

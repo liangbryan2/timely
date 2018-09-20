@@ -27,6 +27,12 @@ var config = {
 firebase.initializeApp(config);
 var auth = firebase.auth();
 
+// Local Storage npm Requirement
+if (typeof localStorage === "undefined" || localStorage === null) {
+    var LocalStorage = require('node-localstorage').LocalStorage;
+    localStorage = new LocalStorage('./scratch');
+}
+
 // userId is associated with currently logged in user
 var userId;
 
@@ -112,12 +118,14 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
             if (!result) {
                 newUser.firebaseId = firebaseUser.uid;
                 db.Users.create(newUser).then(function (result) {
-                    userId = result.id
+                    // userId = result.id
+                    localStorage.setItem('userId', result.id)
                     return;
                 })
             } else {
-                userId = result.id
+                // userId = result.id
                 console.log("existing user userId = ", userId);
+                localStorage.setItem('userId', result.id)
                 return;
             }
         })
@@ -306,6 +314,7 @@ router.get("/dashboard/", function (req, res) {
 
 // Switch case to see what type of media we are going to update
 function modelSwitch(modelName, mediaId) {
+    var userId = localStorage.getItem('userId')
     var conditional;
     var model;
     switch (modelName) {
@@ -426,6 +435,7 @@ function postModelSwitch(modelName, body) {
 
 router.post("/api/:model/add", function (req, res) {
 
+    var userId = localStorage.getItem('userId')
     var array = postModelSwitch(req.params.model, req.body);
     var conditional = array[0];
     var model = array[1];
