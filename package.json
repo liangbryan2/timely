@@ -11,8 +11,11 @@
     "firebase": "^5.5.0",
     "google-books-search": "^0.3.1",
     "howlongtobeat": "^1.0.11",
+    "md-movie-utils": "0.0.5",
     "moment": "^2.22.2",
+    "moviedb-promise": "^1.2.6",
     "mysql2": "^1.6.1",
+    "omdb": "^0.8.0",
     "omdb-client": "^2.0.0",
     "sequelize": "^4.38.1",
     "tvmaze": "^0.3.0"

@@ -6,10 +6,10 @@
                     <div class="dropdown">
                         <button id="activeCategory" class="dropbtn" value="movie">Media</button>
                         <div class="dropdown-content">
-                            <h3 class="dropdownCategory" value="movie">Movies</h3>
-                            <h3 class="dropdownCategory" value="show">Shows</h3>
-                            <h3 class="dropdownCategory" value="game">Games</h3>
-                            <h3 class="dropdownCategory" value="book">Books</h3>
+                            <h3 class="dropdownCategory" value="movies">Movies</h3>
+                            <h3 class="dropdownCategory" value="shows">Shows</h3>
+                            <h3 class="dropdownCategory" value="games">Games</h3>
+                            <h3 class="dropdownCategory" value="books">Books</h3>
                         </div>
                     </div>
                     <input type="text" id="searchQuery" placeholder="Search movies, shows, games, books">
@@ -83,6 +83,16 @@
 
     console.log("current search category " + currentCategory)
 
+    $(".searchForm").on("click", function(event){
+        event.preventDefault();
+
+        var searchType = $("#activeCategory").val();
+        var query = $("#searchQuery").val();
+
+        $.get("/search/"+searchType+"/"+query, function( data ) {
+            console.log("search performed")
+        })
+    })
 
     // Pushing to Database //
     $(".addToDB").on("click", function (event) {
