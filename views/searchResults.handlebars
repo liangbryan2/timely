@@ -77,12 +77,11 @@
     $(".dropdownCategory").on("click",
         function () {
             currentCategory = $(this).attr("value")
-            console.log(currentCategory)
+
             assignValue(currentCategory, render)
         }
     )
 
-    console.log("current search category " + currentCategory)
 
     $(".searchForm").on("submit", function (event) {
         event.preventDefault();
@@ -137,7 +136,7 @@
 
         }
 
-        console.log(sqlEntry)
+
 
         $.ajax("/api/" + mediaType + "/add", {
             type: "POST",
