@@ -10,6 +10,7 @@ var exphbs = require("express-handlebars");
 
 var routes = require("./controllers/controller.js")
 var external = require("./controllers/externalAPI.js")
+
 app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({
@@ -26,7 +27,7 @@ app.engine("handlebars", exphbs({
 app.set("view engine", "handlebars");
 
 app.use("/", routes);
-app.use("/search", external);
+app.use("/search/", external);
 
 db.sequelize.sync().then(function () {
     app.listen(PORT, function () {
