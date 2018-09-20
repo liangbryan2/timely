@@ -29,14 +29,14 @@
     margin: 10px;
 }
 
-.searchBarWrap {
-
+.searchResultsWrap {
+    animation: 1s fadeIn forwards;
 }
 
 .searchResultsBox {
-    background-color: rgba(0,0,0,.3);
     height: 100%;
     width: 100%;
+    background: linear-gradient(to top,rgba(38,109,211.0), rgba(191, 217, 239, .5))
 }
 
 .searchResultsNav {
@@ -114,6 +114,10 @@
     flex-direction: column;
     height: 100%;
     width: 50%;
+    /* background-image: url(img/icons-12.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; */
 }
 
 .srbCol2 .row {
@@ -134,7 +138,7 @@
     height: 33.3%;
     width: 33.3%;
     position: relative;
-    filter: blur(4px);
+    filter: blur(0px);
     transition: .2s ease;
 }
 
@@ -189,6 +193,7 @@
     width: 50%;
     position: relative;
 }
+
 .searchResultThumb-medium .text {
     position: relative;
     top: 50%;
@@ -196,14 +201,17 @@
     padding: 20px;
     text-align: right;
 }
+
 .searchResultThumb-medium .text h1 {
     font-size: 25px;
     font-weight: 900;
 }
+
 .searchResultThumb-medium .text h2 {
     font-size: 15px;
     font-style: italic;
 }
+
 .searchResultThumb-medium:hover .addToDB {
     display: block;
     cursor: pointer;
@@ -272,6 +280,8 @@
     padding: 25px;
     margin: 0 20px;
 }
+
+
 
 .headerType {
     color: white;

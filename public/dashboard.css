@@ -2,6 +2,10 @@ body {
     max-width: 100%;
 }
 
+.dashboardWrap {
+    animation: 1s fadeIn forwards;
+}
+
 .navigate {
     background-color: white;
 }
@@ -218,6 +222,9 @@ body {
     max-height: 800px;
     overflow: scroll;
 }
+::-webkit-scrollbar { 
+    display: none; 
+}
 
 .mediaThumbnail {
     width: 160px;
@@ -293,15 +300,20 @@ border-bottom: 3px solid #266DD3;
 
 .changeToCurrent {
     display: none;
+    bottom: -30px;
+    transition: .2s ease;
 }
 
 .changeToCurrent h3 {
     text-align: right;
     padding: 10px;
+
 }
 
 .mediaThumbnail:hover .changeToCurrent {
     display: flex;
+    background-color: white;
+    bottom: 0;
 }
 
 .mediaThumbnail:hover .mediaThumbnailText {
@@ -318,7 +330,7 @@ border-bottom: 3px solid #266DD3;
 } */
 
 #currentMedia {
-    height: 320px;
+    height: 400px;
     overflow: scroll;
     max-width: 100%;
     overflow-x: hidden;
