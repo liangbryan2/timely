@@ -153,7 +153,7 @@ router.get("/shows/:query", function (req, res) {
       moviedb.tvInfo({
         id: ids[i]
       }).then(function (show) {
-        var totalMin = show.number_of_episodes * show.episode_run_time;
+        var totalMin = parseInt(show.number_of_episodes) * parseInt(show.episode_run_time);
         var convertedTime = convertTime(totalMin);
         var showObj = {
           name: show.name,
