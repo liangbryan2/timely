@@ -1,133 +1,142 @@
- <div class="searchResultsWrap">
-        <div class="searchBarWrap">
-            <div class="searchBar">
-                <form class="searchForm">
-                    <div class="section">
+<div class="searchResultsWrap">
+    <div class="searchBarWrap">
+        <div class="searchBar">
+            <form class="searchForm">
+                <div class="section">
                     <div class="dropdown">
-                    <button id="activeCategory" class="dropbtn" value="movie">Media</button>
-                    <div class="dropdown-content">
-                        <h3 class="dropdownCategory" value="movie">Movies</h3>
-                        <h3 class="dropdownCategory" value="show">Shows</h3>
-                        <h3 class="dropdownCategory" value="game">Games</h3>
-                        <h3 class="dropdownCategory" value="book">Books</h3>
-                    </div>
+                        <button id="activeCategory" class="dropbtn" value="movie">Media</button>
+                        <div class="dropdown-content">
+                            <h3 class="dropdownCategory" value="movie">Movies</h3>
+                            <h3 class="dropdownCategory" value="show">Shows</h3>
+                            <h3 class="dropdownCategory" value="game">Games</h3>
+                            <h3 class="dropdownCategory" value="book">Books</h3>
+                        </div>
                     </div>
                     <input type="text" id="searchQuery" placeholder="Search movies, shows, games, books">
-                    <img src="img/icons-05.png" class="icon">    
+                    <img src="/img/icons-05.png" class="icon">
                 </div>
-                </form>
-                <div class="smallLogo">
+            </form>
+            <div class="smallLogo">
                 <h1>Time.ly</h1>
-                </div>
             </div>
-
         </div>
-        <div class="searchResultsBox">
-            <div class="srbCol1">
-                <div class="srb-largeThumb">
-                        <div class="text">
-                            <h1>{{item[0].name}}</h1>
-                            <h2>{{item[0].time}} min</h2>
-                        </div>
+
+    </div>
+    <div class="searchResultsBox">
+        <div class="srbCol1">
+            <div class="srb-largeThumb" style="background: url( {{ items.[0].imgUrl }} )">
+                <div class="addToDB" data-name="{{items.[0].name}}" data-len-attr-1="{{items.[0].lengthAttr1}}" data-len-attr-2="{{items.[0].lengthAttr2}}"
+                    data-id="{{items.[0].apiId}}" data-time="{{items.[0].time}}" data-imgUrl="{{items.[0].imgUrl}}" data-type="{{items.[0].type}}">
+                    <h1>Add to Database</h1>
+                </div>
+                <div class="text">
+                    <h1>{{items.[0].name}}</h1>
+                    <h2>{{items.[0].time}} min</h2>
                 </div>
             </div>
-            <div class="srbCol2">
+        </div>
+        <div class="srbCol2">
 
-                <div class="searchResultsReturn">
+            <div class="searchResultsReturn">
 
-                    {{#each items}}
-                        <div class="searchResultThumb-medium" style="background: url({{imgUrl}})">
-                            <div class="addToDB" data-name="{{name}}" data-len-attr-1="{{lenghtAttr1}}" data-len-attr-2="{{lenghtAttr2}}" data-id="{{api-id}}" data-time="{{time}}" data-imgUrl="{{imgUrl}}" data-type="{{type}}">
-                                <h1>Add to Database</h1>
-                            </div>
-                            <div class="text">
-                                <h1>{{name}}</h1>
-                                <h2>{{time}} min</h2>
-                            </div>
+                {{#each items}}
+                {{#unless @first}}
+                    <div class="searchResultThumb" style="background: url({{imgUrl}})">
+                        <div class="addToDB" data-name="{{name}}" data-len-attr-1="{{lengthAttr1}}" data-len-attr-2="{{lengthAttr2}}"
+                            data-id="{{apiId}}" data-time="{{time}}" data-imgUrl="{{imgUrl}}" data-type="{{type}}">
+                            <h1>Add to Database</h1>
                         </div>
-                    {{/each}}
+                        <div class="text">
+                            <h1>{{name}}</h1>
+                            <h2>{{time}} min</h2>
+                        </div>
+                    </div>
+                {{/unless}}
+                {{/each}}
 
-                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        var currentCategory
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1) + "s";
-        }
-        function assignValue(categoryVal, callback){
-            $("#activeCategory").attr("value", "")
-            $("#activeCategory").attr("value", categoryVal)
-            callback(categoryVal)
-        }
-        function render(categoryVal) {
-            var name = capitalizeFirstLetter(categoryVal)
-            $("#activeCategory").text(name)
-        }
-        $(".dropdownCategory").on("click",
-        function(){
+<script>
+    var currentCategory;
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1) + "s";
+    }
+    function assignValue(categoryVal, callback) {
+        $("#activeCategory").attr("value", "")
+        $("#activeCategory").attr("value", categoryVal)
+        callback(categoryVal)
+    }
+    function render(categoryVal) {
+        var name = capitalizeFirstLetter(categoryVal)
+        $("#activeCategory").text(name)
+    }
+    $(".dropdownCategory").on("click",
+        function () {
             currentCategory = $(this).attr("value")
             console.log(currentCategory)
             assignValue(currentCategory, render)
         }
-        )
-            
-        console.log("current search category " + currentCategory)
+    )
+
+    console.log("current search category " + currentCategory)
 
 
-        // Pushing to Database //
-        $(".addToDB").on("click", function(event){
-            event.preventDefault();
+    // Pushing to Database //
+    $(".addToDB").on("click", function (event) {
+        event.preventDefault();
 
-            var mediaType = $(this).attr("data-type");
+        var mediaType = $(this).attr("data-type");
 
-            var sqlEntry = {}
+        var sqlEntry = {}
 
-            if (mediaType = "books") {
+        if (mediaType === "books") {
 
-                sqlEntry.name = $(this).attr("data-name")
-                sqlEntry.pages = $(this).attr("data-len-attr-1")
-                sqlEntry.imgUrl = $(this).attr("data-imgUrl")
-                sqlEntry.gBooksId = $(this).attr("data-id")
-                sqlEntry.minutes = $(this).attr("data-time")
+            sqlEntry.name = $(this).attr("data-name")
+            sqlEntry.pages = $(this).attr("data-len-attr-1")
+            sqlEntry.imgUrl = $(this).attr("data-imgUrl")
+            sqlEntry.gBooksId = $(this).attr("data-id")
+            sqlEntry.minutes = $(this).attr("data-time")
 
-            } else if (mediaType = "games") {
+        } else if (mediaType === "games") {
 
-                var completionistTime = $(this).attr("data-len-attr-2") * 60;
+            var completionistTime = $(this).attr("data-len-attr-2") * 60;
 
-                sqlEntry.name = $(this).attr("data-name");
-                sqlEntry.mainLength = $(this).attr("data-len-attr-1");
-                sqlEntry.completionistLength = $(this).attr("data-len-attr-2");
-                sqlEntry.imgUrl = $(this).attr("data-imgUrl");
-                sqlEntry.hltbID = $(this).attr("data-id");
-                sqlEntry.mainMinutes = $(this).attr("data-time");
-                sqlEntry.completeMinutes = completionistTime;
+            sqlEntry.name = $(this).attr("data-name");
+            sqlEntry.mainLength = $(this).attr("data-len-attr-1");
+            sqlEntry.completionistLength = $(this).attr("data-len-attr-2");
+            sqlEntry.imgUrl = $(this).attr("data-imgUrl");
+            sqlEntry.hltbID = $(this).attr("data-id");
+            sqlEntry.mainMinutes = $(this).attr("data-time");
+            sqlEntry.completeMinutes = completionistTime;
 
-            } else if (mediaType = "movies") {
+        } else if (mediaType === "movies") {
 
-                sqlEntry.name = $(this).attr("data-name")
-                sqlEntry.runtime = $(this).attr("data-time")
-                sqlEntry.imgUrl = $(this).attr("data-imgUrl")
-                sqlEntry.imdbId = $(this).attr("data-id")
+            sqlEntry.name = $(this).attr("data-name")
+            sqlEntry.runtime = $(this).attr("data-time")
+            sqlEntry.imgUrl = $(this).attr("data-imgUrl")
+            sqlEntry.imdbId = $(this).attr("data-id")
 
-            } else if (mediaType = "shows") {
+        } else if (mediaType === "shows") {
 
-                sqlEntry.name = $(this).attr("data-name")
-                sqlEntry.episodes = $(this).attr("data-len-attr-1")
-                sqlEntry.runtime = $(this).attr("data-len-attr-2")
-                sqlEntry.imgUrl = $(this).attr("data-imgUrl")
-                sqlEntry.tvMazeID = $(this).attr("data-id")
-                sqlEntry.minutes = $(this).attr("data-time")
+            sqlEntry.name = $(this).attr("data-name")
+            sqlEntry.episodes = $(this).attr("data-len-attr-1")
+            sqlEntry.runtime = $(this).attr("data-len-attr-2")
+            sqlEntry.imgUrl = $(this).attr("data-imgUrl")
+            sqlEntry.tvMazeID = $(this).attr("data-id")
+            sqlEntry.minutes = $(this).attr("data-time")
 
-            }
+        }
 
-            $.post("/api/"+mediaType+"/add", sqlEntry, function( data ){}).then(function(response){
-                
-            })
-
-
+        $.ajax("/api/" + mediaType + "/add", {
+            type: "POST",
+            data: sqlEntry
+        }).then(function(result) {
+            console.log("added game");
         })
-    </script>
-    
+
+
+    })
+</script>

@@ -1,7 +1,18 @@
 var express = require("express");
 var db = require("../models");
 var router = express.Router();
+var TVMaze = require('tvmaze');
+var tvm = new TVMaze();
 
+// // Game API
+var hltb = require('howlongtobeat');
+var hltbService = new hltb.HowLongToBeatService();
+
+//Books API
+var books = require('google-books-search');
+
+// //Movie API
+var omdbApi = require('omdb-client');
 // Initialize Firebase
 var firebase = require('firebase');
 var config = {
@@ -43,7 +54,10 @@ router.post("/api/users", function (req, res) {
         res.json(result);
     })
 })
-
+router.get("/login", function (req, res) {
+    res.render("signin");
+    return;
+})
 router.post("/login", function (req, res) {
     auth.signInWithEmailAndPassword(req.body.email, req.body.password).catch(function (error) {
         console.log(error.code)
@@ -101,7 +115,7 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
 //===================================================================================
 // display dashboard
 //===================================================================================
-router.get("/dashboard/:media?", function (req, res) {
+router.get("/dashboard/", function (req, res) {
     db.Users.findOne({
         where: {
             id: userId
@@ -399,5 +413,10 @@ router.post("/api/:model/add", function (req, res) {
 // end
 //===================================================================================
 
+// ==================
+// ==================
 
+
+// ==================
+// ==================
 module.exports = router;
