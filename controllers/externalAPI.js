@@ -66,40 +66,56 @@ router.get("/games/:query", function (req, res) {
 // ======================================================
 // search for movies
 // ======================================================
+router.get("/movies/:query", function (req, res) {
+  moviedb.searchMovie({
+    query: req.params.query
+  }).then(function (data) {
+    var results = data.results;
+    var loopLength;
+    if (results.length <= 10) {
+      loopLength = results.length;
+    } else if (results.length > 10) {
+      loopLength = 10;
+    }
+    var ids = [];
+    for (var i = 0; i < loopLength; i++) {
+      ids.push(results[i].id);
+    }
+    var array = [];
+    var object = {};
+    for (var i = 0; i < ids.length; i++) {
+      moviedb.movieInfo({
+        id: ids[i]
+      }).then(function (movie) {
+        var convertedTime = convertTime(movie.runtime);
+        var movieObj = {
+          name: movie.original_title,
+          lengthAttr1: movie.runtime,
+          lengthAttr2: '',
+          apiId: movie.id,
+          time: movie.runtime,
+          type: "movies",
+          displayTime: convertedTime,
+          imgUrl: "http://image.tmdb.org/t/p/w500/" + movie.poster_path
+        };
+        array.push(movieObj);
+        object.items = array;
+        if (object.items.length === loopLength) {
+          res.render("searchresults", object);
+          return;
+        }
+      }).catch(console.error)
+    }
+  }).catch(console.error)
+})
 
-// router.get("/movies/:query", function (req, res) {
 
-//   moviedb.searchMovie({
-//     query: req.params.query
-//   }).then(result => {
-//     res.json(result)
-//   }).catch(console.error)
-// })
+// ======================================================
+// end
+// ======================================================
 
-// var loopLength;
-// if (data.length <= 10) {
-//   loopLength = data.length;
-// } else if (data.length > 10) {
-//   loopLength = 10;
-// }
-//   var object = {}
-//   var array = [];
-//   for (var i = 0; i < loopLength; i++) {
-//     var totalMin = parseInt(data[i].Runtime);
-//     var movieObj = {
-//       name: data[i].title,
-//       lengthAttr1: data[i].pageCount,
-//       lengthAttr2: '',
-//       imgUrl: data[i].thumbnail,
-//       apiId: data[i].id,
-//       time: totalMin,
-//       type: "movies"
-//     }
-//     array.push(movieObj);
-//   }
-//   object.items = array;
 
-// res.render("searchresults", object);
+
 
 //===========================================================
 // tv shows
@@ -117,60 +133,41 @@ router.get("/shows/:query", function (req, res) {
     }
     var ids = [];
     for (var i = 0; i < loopLength; i++) {
-      ids.push(results[i]);                              
+      ids.push(results[i].id);
     }
-    for (var i = 0; i < )
-  })
+    var array = [];
+    var object = {};
+    for (var i = 0; i < ids.length; i++) {
+      moviedb.tvInfo({
+        id: ids[i]
+      }).then(function (show) {
+        var totalMin = show.number_of_episodes * show.episode_run_time;
+        var convertedTime = convertTime(totalMin);
+        var showObj = {
+          name: show.name,
+          lengthAttr1: show.number_of_episodes,
+          lengthAttr2: show.episode_run_time,
+          apiId: show.id,
+          time: totalMin,
+          type: "shows",
+          displayTime: convertedTime,
+          imgUrl: "http://image.tmdb.org/t/p/w500/" + show.poster_path
+        };
+        array.push(showObj);
+        object.items = array;
+        if (object.items.length === loopLength) {
+          res.render("searchresults", object)
+          return;
+        }
+      }).catch(console.error)
+    }
+  }).catch(console.error)
 })
 
 
 // ==========================================================
 // end
 // ==========================================================
-
-
-
-// =============== md-movie-utils ==============================
-
-
-
-let movieDBClients = require('md-movie-utils').clients;
-let omdbClient = movieDBClients.OMDBClient.getInstance('trilogy');
-
-
-
-
-var response = {
-  success: function (res) {
-    return function (movie) {
-      if (movie) {
-        return res.status(200).json(movie);
-      } else {
-        return res.status(404);
-      }
-    };
-  },
-  failure: function (res) {
-    return function (err) {
-      return res.status(500).json({
-        message: err.message
-      });
-    }
-  }
-};
-
-app.get("/movies/:query", function (req, res) {
-  omdbClient.search({query: req.params.query})
-    .then(response.success(res), response.failure(res));
-});
-
-
-
-
-// http: //localhost:3000/omdb/search?q=Batman
-// req.query.q = batman
-// /omdb/movie/getByTitleAndYear?title=Saw&year=2004
-
 
 
 
@@ -293,6 +290,7 @@ router.get("/books/:query", function (req, res) {
       for (let i = 0; i < loopLength; i++) {
 
         var totalMin = result[i].pageCount * 2;
+        var convertedTime = convertTime(totalMin)
         var bookObj = {
           name: result[i].title,
           lengthAttr1: result[i].pageCount,
@@ -300,7 +298,8 @@ router.get("/books/:query", function (req, res) {
           imgUrl: result[i].thumbnail,
           apiId: result[i].id,
           time: totalMin,
-          type: "books"
+          type: "books",
+          displayTime: convertedTime
         };
         array.push(bookObj);
       }
@@ -388,5 +387,13 @@ router.get("/books/:query", function (req, res) {
 //   })
 //   return whatever(resultsArr);
 // })
+
+function convertTime(minutes) {
+  var time = minutes / 60
+  var hours = Math.floor(minutes / 60);
+  var minutes = minutes % 60;
+  var timeString = hours + "h " + minutes + "m"
+  return timeString
+}
 
 module.exports = router;

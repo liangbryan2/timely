@@ -30,12 +30,22 @@ var auth = firebase.auth();
 var userId;
 
 function convertTime(minutes) {
-
-    var time = minutes / 60
-    var hours = Math.floor(minutes / 60);
-    var minutes = minutes % 60;
-    var timeString = hours + "h " + minutes + "m"
-    return timeString
+    var days;
+    var hours;
+    var minutes;
+    var timeString;
+    if (minutes >= 1440) {
+        days = Math.floor(minutes / 1440);
+        hours = Math.floor((minutes / 60) % 24);
+        minutes = minutes % 60;
+        timeString = days + "d " + hours + "h " + minutes + "m"
+        return timeString
+    } else {
+        hours = Math.floor(minutes / 60);
+        minutes = minutes % 60;
+        timeString = hours + "h " + minutes + "m"
+        return timeString
+    }
 
 }
 
@@ -62,7 +72,7 @@ router.post("/login", function (req, res) {
     auth.signInWithEmailAndPassword(req.body.email, req.body.password).catch(function (error) {
         console.log(error.code)
     });
-    res.send("logged in");
+    res.send("");
 })
 
 var newUser;
@@ -94,7 +104,6 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
                 newUser.firebaseId = firebaseUser.uid;
                 db.Users.create(newUser).then(function (result) {
                     userId = result.id
-                    console.log("new user userId = ", userId);
                     return;
                 })
             } else {
@@ -152,7 +161,8 @@ router.get("/dashboard/", function (req, res) {
         var gameArr = [];
         if (result.Games[0]) {
             for (var i = 0; i < result.Games.length; i++) {
-                gameMin += result.Games[i].mainMinutes
+                var addMin = parseInt(result.Games[i].mainMinutes)
+                gameMin += addMin
 
                 var game = {
                     id: result.Games[i].id,

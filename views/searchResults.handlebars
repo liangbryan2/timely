@@ -1,10 +1,14 @@
+<div class="headerType">
+    <h1>Time.ly</h1>
+</div>
+
 <div class="searchResultsWrap">
     <div class="searchBarWrap">
         <div class="searchBar">
             <form class="searchForm">
                 <div class="section">
                     <div class="dropdown">
-                        <button id="activeCategory" class="dropbtn" value="movie">Media</button>
+                        <button id="activeCategory" class="dropbtn" value="movies">Media</button>
                         <div class="dropdown-content">
                             <h3 class="dropdownCategory" value="movies">Movies</h3>
                             <h3 class="dropdownCategory" value="shows">Shows</h3>
@@ -16,22 +20,20 @@
                     <img src="/img/icons-05.png" class="icon">
                 </div>
             </form>
-            <div class="smallLogo">
-                <h1>Time.ly</h1>
-            </div>
         </div>
 
     </div>
     <div class="searchResultsBox">
         <div class="srbCol1">
-            <div class="srb-largeThumb" style="background: url( {{ items.[0].imgUrl }} )">
+            <div class="title"></div>
+            <div class="srb-largeThumb" style="background:linear-gradient(to top right, rgba(142, 208, 129,1),rgba(255, 255, 255,.3)), url({{items.[0].imgUrl}}); background-blend-mode: screen; background-size: cover; background-repeat: no-repeat; background-position: center;">
                 <div class="addToDB" data-name="{{items.[0].name}}" data-len-attr-1="{{items.[0].lengthAttr1}}" data-len-attr-2="{{items.[0].lengthAttr2}}"
                     data-id="{{items.[0].apiId}}" data-time="{{items.[0].time}}" data-imgUrl="{{items.[0].imgUrl}}" data-type="{{items.[0].type}}">
-                    <h1>Add to Database</h1>
                 </div>
                 <div class="text">
                     <h1>{{items.[0].name}}</h1>
-                    <h2>{{items.[0].time}} min</h2>
+                    <h2 class="largeMinutes">{{items.[0].displayTime}}</h2>
+                    <div class="largeThumbSubtext">  <h2 id="addLargetoDB">Add to Database</h2></div>
                 </div>
             </div>
         </div>
@@ -41,14 +43,11 @@
 
                 {{#each items}}
                 {{#unless @first}}
-                    <div class="searchResultThumb" style="background: url({{imgUrl}})">
-                        <div class="addToDB" data-name="{{name}}" data-len-attr-1="{{lengthAttr1}}" data-len-attr-2="{{lengthAttr2}}"
-                            data-id="{{apiId}}" data-time="{{time}}" data-imgUrl="{{imgUrl}}" data-type="{{type}}">
-                            <h1>Add to Database</h1>
-                        </div>
-                        <div class="text">
+                    <div class="searchResultThumb" style="background:linear-gradient(to top left, rgba(142, 208, 129,1),rgba(255, 255, 255,.3)), url({{imgUrl}}); background-blend-mode: screen; background-size: cover; background-repeat: no-repeat; background-position: center; ">
+                        <div class="addToDB" data-name="{{name}}" data-len-attr-1="{{lengthAttr1}}" data-len-attr-2="{{lengthAttr2}}" data-id="{{apiId}}" data-time="{{time}}" data-imgUrl="{{imgUrl}}" data-type="{{type}}">
+                            <h2>Add </h2>
                             <h1>{{name}}</h1>
-                            <h2>{{time}} min</h2>
+                            <h2>{{displayTime}}</h2> 
                         </div>
                     </div>
                 {{/unless}}
@@ -80,10 +79,8 @@
             assignValue(currentCategory, render)
         }
     )
-
     console.log("current search category " + currentCategory)
-
-    $(".searchForm").on("click", function(event){
+    $(".searchForm").on("submit", function(event){
         event.preventDefault();
 
         var searchType = $("#activeCategory").val();
@@ -93,27 +90,23 @@
             console.log("search performed")
         })
     })
-
+    $(".addToDB").on("click", function(){
+        var addName = $(this).attr("data-name");
+        $(this).html(addName + " has been successfully added to your back log")
+    })
     // Pushing to Database //
     $(".addToDB").on("click", function (event) {
         event.preventDefault();
-
         var mediaType = $(this).attr("data-type");
-
         var sqlEntry = {}
-
         if (mediaType === "books") {
-
             sqlEntry.name = $(this).attr("data-name")
             sqlEntry.pages = $(this).attr("data-len-attr-1")
             sqlEntry.imgUrl = $(this).attr("data-imgUrl")
             sqlEntry.gBooksId = $(this).attr("data-id")
             sqlEntry.minutes = $(this).attr("data-time")
-
         } else if (mediaType === "games") {
-
             var completionistTime = $(this).attr("data-len-attr-2") * 60;
-
             sqlEntry.name = $(this).attr("data-name");
             sqlEntry.mainLength = $(this).attr("data-len-attr-1");
             sqlEntry.completionistLength = $(this).attr("data-len-attr-2");
@@ -121,32 +114,24 @@
             sqlEntry.hltbID = $(this).attr("data-id");
             sqlEntry.mainMinutes = $(this).attr("data-time");
             sqlEntry.completeMinutes = completionistTime;
-
         } else if (mediaType === "movies") {
-
             sqlEntry.name = $(this).attr("data-name")
             sqlEntry.runtime = $(this).attr("data-time")
             sqlEntry.imgUrl = $(this).attr("data-imgUrl")
             sqlEntry.imdbId = $(this).attr("data-id")
-
         } else if (mediaType === "shows") {
-
             sqlEntry.name = $(this).attr("data-name")
             sqlEntry.episodes = $(this).attr("data-len-attr-1")
             sqlEntry.runtime = $(this).attr("data-len-attr-2")
             sqlEntry.imgUrl = $(this).attr("data-imgUrl")
             sqlEntry.tvMazeID = $(this).attr("data-id")
             sqlEntry.minutes = $(this).attr("data-time")
-
         }
-
         $.ajax("/api/" + mediaType + "/add", {
             type: "POST",
             data: sqlEntry
         }).then(function(result) {
             console.log("added game");
         })
-
-
     })
 </script>

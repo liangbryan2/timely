@@ -42,7 +42,7 @@
             <div class="container">
                 <div class="dashSection" id="currentMedia">
                     {{#each inProgress}}
-                    <div class="currentMediaIcon" style="background-image: url('{{this.imgUrl}}'')"></div>
+                    <div class="currentMediaIcon" style="background-image: url('{{this.imgUrl}}'')" data-type="{{ this.type }}" data-id="{{this.id}}"></div>
                     <div class="currentMediaText">
                         <h2 class="blueLarge">{{this.name}}</h2>
                         <h2>{{this.minutes}}</h2>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="thumbnailBox">
                         {{#each backlog}}
-                        <div class="mediaThumbnail" style="background-image: url('{{this.imgUrl}}')">
+                        <div class="mediaThumbnail" style="background-image: url('{{this.imgUrl}}')" data-type="{{ this.type }}" data-id="{{this.id}}">
                             <div class="changeToCurrent">
                                 <h3 class="currentToggle" value="false">Make Current Media</h3>
                             </div>
@@ -94,7 +94,37 @@
 
 <script type="text/javascript">
 
+    // Set backlog media as "in progress"
+    $(".mediaThumbnail").on("click", function(event) {
+        event.preventDefault();
 
+        var mediaType = $(this).attr("data-type");
+        var mediaId = $(this).attr("data-id");
+
+        $.ajax("/api/" + mediaType + "/" + mediaId + "/progress", {
+            type: "PUT"
+        }).then(function(result) {
+            console.log("Media in progress");
+            location.reload();
+        })
+
+    })
+
+    // Set "in progress" media as "complete"
+    $(".currentMediaIcon").on("click", function(event) {
+        event.preventDefault();
+
+        var mediaType = $(this).attr("data-type");
+        var mediaId = $(this).attr("data-id");
+
+        $.ajax("/api/" + mediaType + "/" + mediaId + "/complete", {
+            type: "PUT"
+        }).then(function(result) {
+            console.log("Media Complete");
+            location.reload();
+        })
+
+    })
 
     $(".statBox").on("click", function () {
         var dashCategory = $(this).attr("value")

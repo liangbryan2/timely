@@ -34,7 +34,9 @@ $(document).ready(function () {
             type: "POST",
             data: user
         }).then(function (result) {
-            console.log(result);
+            setTimeout(function () {
+                window.location = "/dashboard"
+            }, 1500);
         })
     })
 
