@@ -65,7 +65,7 @@ router.get("/games/:query", function (req, res) {
       }
       object.items = array;
     }
-    res.render("searchresults", object);
+    res.render("searchResults", object);
     return;
   });
 })
@@ -113,7 +113,7 @@ router.get("/movies/:query", function (req, res) {
         array.push(movieObj);
         object.items = array;
         if (object.items.length === loopLength) {
-          res.render("searchresults", object);
+          res.render("searchResults", object);
           return;
         }
       }).catch(console.error)
@@ -168,7 +168,7 @@ router.get("/shows/:query", function (req, res) {
         array.push(showObj);
         object.items = array;
         if (object.items.length === loopLength) {
-          res.render("searchresults", object)
+          res.render("searchResults", object)
           return;
         }
       }).catch(console.error)
@@ -319,7 +319,7 @@ router.get("/books/:query", function (req, res) {
     } else {
       console.log(error)
     }
-    res.render("searchresults", object);
+    res.render("searchResults", object);
     return;
   })
 })
@@ -401,11 +401,23 @@ router.get("/books/:query", function (req, res) {
 // })
 
 function convertTime(minutes) {
-  var time = minutes / 60
-  var hours = Math.floor(minutes / 60);
-  var minutes = minutes % 60;
-  var timeString = hours + "h " + minutes + "m"
-  return timeString
+  var days;
+  var hours;
+  var minutes;
+  var timeString;
+  if (minutes >= 1440) {
+      days = Math.floor(minutes / 1440);
+      hours = Math.floor((minutes / 60) % 24);
+      minutes = minutes % 60;
+      timeString = days + "d " + hours + "h " + minutes + "m"
+      return timeString
+  } else {
+      hours = Math.floor(minutes / 60);
+      minutes = minutes % 60;
+      timeString = hours + "h " + minutes + "m"
+      return timeString
+  }
+
 }
 
 module.exports = router;
