@@ -1,37 +1,39 @@
+<div class="headerType">
+    <h1>Time.ly</h1>
+</div>
+
 <div class="searchResultsWrap">
     <div class="searchBarWrap">
         <div class="searchBar">
             <form class="searchForm">
                 <div class="section">
                     <div class="dropdown">
-                        <button id="activeCategory" class="dropbtn" value="movie">Media</button>
+                        <button id="activeCategory" class="dropbtn" value="movies">Media</button>
                         <div class="dropdown-content">
-                            <h3 class="dropdownCategory" value="movie">Movies</h3>
-                            <h3 class="dropdownCategory" value="show">Shows</h3>
-                            <h3 class="dropdownCategory" value="game">Games</h3>
-                            <h3 class="dropdownCategory" value="book">Books</h3>
+                            <h3 class="dropdownCategory" value="movies">Movies</h3>
+                            <h3 class="dropdownCategory" value="shows">Shows</h3>
+                            <h3 class="dropdownCategory" value="games">Games</h3>
+                            <h3 class="dropdownCategory" value="books">Books</h3>
                         </div>
                     </div>
                     <input type="text" id="searchQuery" placeholder="Search movies, shows, games, books">
                     <img src="/img/icons-05.png" class="icon">
                 </div>
             </form>
-            <div class="smallLogo">
-                <h1>Time.ly</h1>
-            </div>
         </div>
 
     </div>
     <div class="searchResultsBox">
         <div class="srbCol1">
-            <div class="srb-largeThumb" style="background: url( {{ items.[0].imgUrl }} )">
+            <div class="title"></div>
+            <div class="srb-largeThumb" style="background:linear-gradient(to top right, rgba(142, 208, 129,1),rgba(255, 255, 255,.3)), url({{items.[0].imgUrl}}); background-blend-mode: screen; background-size: cover; background-repeat: no-repeat; background-position: center;">
                 <div class="addToDB" data-name="{{items.[0].name}}" data-len-attr-1="{{items.[0].lengthAttr1}}" data-len-attr-2="{{items.[0].lengthAttr2}}"
                     data-id="{{items.[0].apiId}}" data-time="{{items.[0].time}}" data-imgUrl="{{items.[0].imgUrl}}" data-type="{{items.[0].type}}">
-                    <h1>Add to Database</h1>
                 </div>
                 <div class="text">
                     <h1>{{items.[0].name}}</h1>
-                    <h2>{{items.[0].time}} min</h2>
+                    <h2 class="largeMinutes">{{items.[0].time}} min</h2>
+                    <div class="largeThumbSubtext">  <h2 id="addLargetoDB">Add to Database</h2></div>
                 </div>
             </div>
         </div>
@@ -41,14 +43,11 @@
 
                 {{#each items}}
                 {{#unless @first}}
-                    <div class="searchResultThumb" style="background: url({{imgUrl}})">
-                        <div class="addToDB" data-name="{{name}}" data-len-attr-1="{{lengthAttr1}}" data-len-attr-2="{{lengthAttr2}}"
-                            data-id="{{apiId}}" data-time="{{time}}" data-imgUrl="{{imgUrl}}" data-type="{{type}}">
-                            <h1>Add to Database</h1>
-                        </div>
-                        <div class="text">
+                    <div class="searchResultThumb" style="background:linear-gradient(to top left, rgba(142, 208, 129,1),rgba(255, 255, 255,.3)), url({{imgUrl}}); background-blend-mode: screen; background-size: cover; background-repeat: no-repeat; background-position: center; ">
+                        <div class="addToDB" data-name="{{name}}" data-len-attr-1="{{lengthAttr1}}" data-len-attr-2="{{lengthAttr2}}" data-id="{{apiId}}" data-time="{{time}}" data-imgUrl="{{imgUrl}}" data-type="{{type}}">
+                            <h2>Add </h2>
                             <h1>{{name}}</h1>
-                            <h2>{{time}} min</h2>
+                            <h2>{{time}} min</h2> 
                         </div>
                     </div>
                 {{/unless}}
@@ -82,6 +81,11 @@
     )
 
     console.log("current search category " + currentCategory)
+
+    $(".addToDB").on("click", function(){
+        var addName = $(this).attr("data-name");
+        $(this).html(addName + " has been successfully added to your back log")
+    })
 
 
     // Pushing to Database //

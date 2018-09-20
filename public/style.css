@@ -170,6 +170,7 @@ h1 {
 .dropdown {
     position: relative;
     display: inline-block;
+    width: 100px;
 }
 
 .dropdown-content {
@@ -195,8 +196,11 @@ h1 {
 
 .dropdown:hover .dropdown-content {
     display: flex;
-    top: -43px;
-    height: 40px;
+    flex-direction: column-reverse;
+    min-width: 100px;
+    top: -163px;
+    height: 160px;
+    color: white;
 }
 
 .dropdown:hover .dropbtn {

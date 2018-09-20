@@ -1,11 +1,13 @@
 .searchBarWrap {
     z-index: 10;
     bottom: 0;
+    left: 0;
+    position: fixed;
 }
 
 .searchBar {
-    width: 800px;
-    padding: 10px;
+    width: 630px;
+    padding: 45px;
 }
 
 .searchBar input {
@@ -28,14 +30,11 @@
 }
 
 .searchBarWrap {
-    margin: 0 auto;
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%)
+
 }
 
 .searchResultsBox {
-    background-color: pink;
+    background-color: rgba(0,0,0,.3);
     height: 100%;
     width: 100%;
 }
@@ -84,25 +83,30 @@
     height: 100%;
     width: 100%;
     position: relative;
+    z-index: 5;
+    box-shadow: 0 0 10px rgba(0,0,0,.3);
 }
 
 .srb-largeThumb .text {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    padding: 20px;
+    text-align: center;
 }
 
 .srb-largeThumb .text h1 {
-    color: white;
-    font-size: 55px;
+    font-size: 60px;
     font-weight: 900;
 }
 
+.srb-largeThumb .largeMinutes {
+    font-size: 20px;
+}
+
 .srb-largeThumb .text h2 {
-    font-size: 35px;
-    font-style: italic;
+    font-size: 30px;
     font-weight: 900;
+    padding-top: 20px;
 }
 
 .srbCol2 {
@@ -130,6 +134,8 @@
     height: 33.3%;
     width: 33.3%;
     position: relative;
+    filter: blur(4px);
+    transition: .2s ease;
 }
 
 .searchResultThumb .text {
@@ -137,29 +143,46 @@
     top: 50%;
     transform: translateY(-50%);
     padding: 20px;
-    text-align: right;
+    text-align: center;
+    display: none;
 }
 
-.searchResultThumb .text h1 {
-    color: white;
+.searchResultThumb h1 {
     font-size: 25px;
     font-weight: 900;
+    margin: 10px 0;
 }
 
-.searchResultThumb .text h2 {
+.searchResultThumb h2 {
     font-size: 15px;
-    font-style: italic;
+    font-weight: normal;
+}
+
+.searchResultThumb:hover {
+    filter: blur(0);
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0,0,0,.3);
 }
 
 .searchResultThumb:hover .addToDB {
     display: block;
     cursor: pointer;
+    background-color: white;
+    padding: 14px 10px;
+    margin: 0 25px;
+    border-radius: 20px;
+}
+
+.searchResultThumb .addToDB h1 {
+    mix-blend-mode: normal;
+    font-size: 25px;
 }
 
 .searchResultThumb:hover .text {
-    display: none;
+    display: flex;
+    flex-direction: column;
 }
-
+/* 
 .searchResultThumb-medium {
     background-color: lightgrey;
     height: 50%;
@@ -176,7 +199,6 @@
 }
 
 .searchResultThumb-medium .text h1 {
-    color: white;
     font-size: 25px;
     font-weight: 900;
 }
@@ -189,11 +211,7 @@
 .searchResultThumb-medium:hover .addToDB {
     display: block;
     cursor: pointer;
-}
-
-.searchResultThumb-medium:hover .text {
-    display: none;
-}
+} */
 
 .green {
     background-color: lightgreen
@@ -228,6 +246,49 @@
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    padding: 20px;
-    text-align: right;
+    padding: 20px 24px;
+    text-align: center;
+}
+
+.largeThumbSubtext {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.srb-largeThumb .text:hover #addLargetoDB {
+    display: flex;
+}
+
+#addLargetoDB {
+    display: none;
+}
+
+.srb-largeThumb .text:hover .largeMinutes{
+    display: none;    
+    background-color: white;
+    border-radius: 20px;
+}
+
+.srb-largeThumb .text:hover{
+    background-color: white;
+    border-radius: 20px;
+    padding: 25px;
+    margin: 0 20px;
+}
+
+
+
+.headerType {
+    color: white;
+    background-color: #16549E;
+    z-index: 20;
+    text-align: center;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    padding: 10px;
+    font-style: italic;
+    font-size: 20px;
 }
