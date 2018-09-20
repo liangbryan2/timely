@@ -21,6 +21,7 @@ var books = require('google-books-search');
 var omdbApi = require('omdb-client');
 
 // ======================================================
+// search for games
 // ======================================================
 router.get("/games/:query", function (req, res) {
   var query = req.params.query;
@@ -28,7 +29,13 @@ router.get("/games/:query", function (req, res) {
     var object = {};
     var array = [];
     if (result.length) {
-      for (var i = 0; i < result.length; i++) {
+      var loopLength;
+      if (result.length <= 10) {
+        loopLength = result.length;
+      } else if (result.length > 10) {
+        loopLength = 10;
+      }
+      for (var i = 0; i < loopLength; i++) {
         var totalMin = result[i].gameplayMain * 60;
         var gameObj = {
           name: result[i].name,
@@ -48,13 +55,60 @@ router.get("/games/:query", function (req, res) {
   });
 })
 
-
+// ======================================================
+// end
+// ======================================================
 
 
 // ======================================================
+// search for movies
 // ======================================================
 
-// ============================================================
+router.get("/movies/:query", function (req, res) {
+  var query = req.params.query;
+  var params = {
+    apiKey: 'trilogy',
+    title: query
+  }
+  omdbApi.get(params, function (err, data) {
+    if (err) {
+      res.status(500);
+    } else {
+      if (data.length) {
+        var loopLength;
+        if (data.length <= 10) {
+          loopLength = data.length;
+        } else if (data.length > 10) {
+          loopLength = 10;
+        }
+        var object = {}
+        var array = [];
+        for (var i = 0; i < loopLength; i++) {
+          var totalMin = parseInt(result[i].Runtime);
+          var movieObj = {
+            name: data[i].title,
+            lengthAttr1: data[i].pageCount,
+            lengthAttr2: '',
+            imgUrl: data[i].thumbnail,
+            apiId: data[i].id,
+            time: totalMin,
+            type: "movies"
+          }
+          array.push(movieObj);
+        }
+        object.items = array;
+      }
+      
+      res.send("test");
+      // res.render("searchresults", object);
+      return;
+    }
+  })
+})
+
+// ======================================================
+// end
+// ======================================================
 
 // var resultsArr = [];
 

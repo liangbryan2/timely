@@ -13,7 +13,7 @@
                         </div>
                     </div>
                     <input type="text" id="searchQuery" placeholder="Search movies, shows, games, books">
-                    <img src="img/icons-05.png" class="icon">
+                    <img src="/img/icons-05.png" class="icon">
                 </div>
             </form>
             <div class="smallLogo">
@@ -24,10 +24,14 @@
     </div>
     <div class="searchResultsBox">
         <div class="srbCol1">
-            <div class="srb-largeThumb">
+            <div class="srb-largeThumb" style="background: url( {{ items.[0].imgUrl }} )">
+                <div class="addToDB" data-name="{{items.[0].name}}" data-len-attr-1="{{items.[0].lengthAttr1}}" data-len-attr-2="{{items.[0].lengthAttr2}}"
+                    data-id="{{items.[0].apiId}}" data-time="{{items.[0].time}}" data-imgUrl="{{items.[0].imgUrl}}" data-type="{{items.[0].type}}">
+                    <h1>Add to Database</h1>
+                </div>
                 <div class="text">
-                    <h1>{{item.[0].name}}</h1>
-                    <h2>{{item.[0].time}} min</h2>
+                    <h1>{{items.[0].name}}</h1>
+                    <h2>{{items.[0].time}} min</h2>
                 </div>
             </div>
         </div>
@@ -36,16 +40,18 @@
             <div class="searchResultsReturn">
 
                 {{#each items}}
-                <div class="searchResultThumb" style="background: url({{imgUrl}})">
-                    <div class="addToDB" data-name="{{name}}" data-len-attr-1="{{lengthAttr1}}" data-len-attr-2="{{lengthAttr2}}"
-                        data-id="{{apiId}}" data-time="{{time}}" data-imgUrl="{{imgUrl}}" data-type="{{type}}">
-                        <h1>Add to Database</h1>
+                {{#unless @first}}
+                    <div class="searchResultThumb" style="background: url({{imgUrl}})">
+                        <div class="addToDB" data-name="{{name}}" data-len-attr-1="{{lengthAttr1}}" data-len-attr-2="{{lengthAttr2}}"
+                            data-id="{{apiId}}" data-time="{{time}}" data-imgUrl="{{imgUrl}}" data-type="{{type}}">
+                            <h1>Add to Database</h1>
+                        </div>
+                        <div class="text">
+                            <h1>{{name}}</h1>
+                            <h2>{{time}} min</h2>
+                        </div>
                     </div>
-                    <div class="text">
-                        <h1>{{name}}</h1>
-                        <h2>{{time}} min</h2>
-                    </div>
-                </div>
+                {{/unless}}
                 {{/each}}
 
             </div>
