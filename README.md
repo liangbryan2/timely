@@ -9,21 +9,21 @@ that information to the user.
 
 
 ## Deployed Link
-[Timely App](https://timely382.herokuapp.com/)
+[Timely App](https://timelymanager.herokuapp.com/)
 
 ## Application Preview
 
 ### Signed-In Page
-![Time.ly-SignIn](/screenShots/signIn)
+![Time.ly-SignIn](https://raw.githubusercontent.com/liangbryan2/timely/readme/public/img/signup.PNG)
 
 ### Search Page
-![Time.ly-Search](/screenShots/searchPage)
+![Time.ly-Search](https://raw.githubusercontent.com/liangbryan2/timely/readme/public/img/search.png)
 
 ### Search Results
-![Time.ly-Search](/screenShots/searchResults)
+![Time.ly-Search](https://raw.githubusercontent.com/liangbryan2/timely/readme/public/img/searchresults.png)
 
 ### User Dashboard
-![Time.ly-DashBoard](/screenShots/signIn)
+![Time.ly-DashBoard](https://raw.githubusercontent.com/liangbryan2/timely/readme/public/img/fullpage.png)
 
 ## Technologies used
 1. HTML5
