@@ -2,8 +2,6 @@ require('dotenv').config();
 var express = require("express");
 var db = require("../models");
 var router = express.Router();
-var TVMaze = require('tvmaze');
-var tvm = new TVMaze();
 
 // // Game API
 var hltb = require('howlongtobeat');
@@ -12,8 +10,6 @@ var hltbService = new hltb.HowLongToBeatService();
 //Books API
 var books = require('google-books-search');
 
-// //Movie API
-var omdbApi = require('omdb-client');
 // Initialize Firebase
 var firebase = require('firebase');
 var config = {
@@ -27,11 +23,6 @@ var config = {
 firebase.initializeApp(config);
 var auth = firebase.auth();
 
-// Local Storage npm Requirement
-if (typeof localStorage === "undefined" || localStorage === null) {
-    var LocalStorage = require('node-localstorage').LocalStorage;
-    localStorage = new LocalStorage('./scratch');
-}
 
 // userId is associated with currently logged in user
 var userId;
@@ -58,7 +49,24 @@ function convertTime(minutes) {
 
 // Landing page
 router.get("/", function (req, res) {
-    res.render("index");
+    if (req.cookies.test) {
+        db.Users.findOne({
+            where: {
+                firebaseId: req.cookies.test.uid
+            }
+        }).then(function (result) {
+            if (result) {
+                res.redirect("/dashboard");
+                return;
+            } else {
+                res.render("index");
+                return;
+            }
+        })
+    } else {
+        res.render("index");
+        return;
+    }
 })
 
 
@@ -77,61 +85,69 @@ router.get("/login", function (req, res) {
 })
 
 router.post("/login", function (req, res) {
-    auth.signInWithEmailAndPassword(req.body.email, req.body.password).then(function (user) {
-        if (user) {
-            res.send("logged in");
-        }
-    }).catch(function (error) {
-        console.log(error.code)
-    });
-})
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
+        .then(function () {
+            return firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password)
+        })
+        .then((user) => {
+            if (user) {
+                let uid = user.user.uid;
+                db.Users.findOne({
+                    where: {
+                        firebaseId: uid
+                    }
+                }).then(function (result) {
+                    if (result) {
+                        res.cookie('test', {
+                            uid: uid
+                        }, {
+                            httpOnly: false
+                        });
+                        res.send('good');
+                        return firebase.auth().signOut();
+                    } else {
+                        res.send("Invalid User");
+                    }
+                })
+            } else {
 
-var newUser;
+            }
+        })
+        .catch((err) => {
+            res.send(err.code);
+        });
+});
+
 router.post("/signup", function (req, res) {
-    auth.createUserWithEmailAndPassword(req.body.email, req.body.password).then(function(user) {
-        if (user) {
-            res.send("user created");
-        }
-    }).catch(function (error) {
-        console.log(error.code);
-        res.send(error.code)
-    })
-    newUser = {
-        userName: req.body.userName,
-        name: req.body.name,
-        imgUrl: req.body.imgUrl
-    }
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
+        .then(function () {
+            return firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password)
+        })
+        .then((user) => {
+            let uid = user.user.uid;
+            res.cookie('test', {
+                uid: uid
+            }, {
+                httpOnly: false
+            });
+            var newUser = {
+                userName: req.body.userName,
+                name: req.body.name,
+                firebaseId: uid
+            }
+            db.Users.create(newUser).then(function (result) {
+                res.send('good');
+            })
+            return firebase.auth().signOut();
+        })
+        .catch((err) => {
+            res.send(err.code);
+        });
 });
 
 router.put("/logout", function (req, res) {
     auth.signOut();
     res.send("logged out");
-})
-
-firebase.auth().onAuthStateChanged(function (firebaseUser) {
-    if (firebaseUser) {
-        db.Users.findOne({
-            where: {
-                firebaseId: firebaseUser.uid
-            }
-        }).then(function (result) {
-            if (!result) {
-                newUser.firebaseId = firebaseUser.uid;
-                db.Users.create(newUser).then(function (result) {
-                    // userId = result.id
-                    localStorage.setItem('userId', result.id)
-                    return;
-                })
-            } else {
-                // userId = result.id
-                console.log("existing user userId = ", userId);
-                localStorage.setItem('userId', result.id)
-                return;
-            }
-        })
-    } else {
-        console.log("not logged in");
-    }
 })
 //===================================================================================
 // end
@@ -143,9 +159,10 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
 //===================================================================================
 
 router.get("/dashboard/", function (req, res) {
+    console.log("test");
     db.Users.findOne({
         where: {
-            id: userId
+            firebaseId: req.cookies.test.uid
         },
         include: [{
             model: db.Games
@@ -258,7 +275,7 @@ router.get("/dashboard/", function (req, res) {
             }
         }
         var totalMin = gameMin + showMin + movieMin + bookMin;
-        var totalMinComplete = gameMinComplete + showMinComplete + movieMinComplete +bookMinComplete;
+        var totalMinComplete = gameMinComplete + showMinComplete + movieMinComplete + bookMinComplete;
         var backlogArr = [];
         var inProgressArr = [];
         for (var i = 0; i < 10; i++) {
@@ -313,8 +330,8 @@ router.get("/dashboard/", function (req, res) {
 //===================================================================================
 
 // Switch case to see what type of media we are going to update
-function modelSwitch(modelName, mediaId) {
-    var userId = localStorage.getItem('userId')
+function modelSwitch(modelName, mediaId, userId) {
+
     var conditional;
     var model;
     switch (modelName) {
@@ -353,42 +370,62 @@ function modelSwitch(modelName, mediaId) {
 
 // update game as complete
 router.put("/api/:model/:mediaid/complete", function (req, res) {
-    var array = modelSwitch(req.params.model, req.params.mediaid);
-    var conditional = array[0];
-    var model = array[1];
-    model.update({
-        complete: true,
-        inProgress: false
-    }, {
-        where: conditional
+    db.Users.findOne({
+        where: {
+            firebaseId: req.cookies.test.uid
+        }
     }).then(function (result) {
-        res.json(result)
+        var array = modelSwitch(req.params.model, req.params.mediaid, result.id);
+        var conditional = array[0];
+        var model = array[1];
+        model.update({
+            complete: true,
+            inProgress: false
+        }, {
+            where: conditional
+        }).then(function (result) {
+            res.json(result)
+        })
     })
 });
 
 // update game as inProgress
 router.put("/api/:model/:mediaid/progress", function (req, res) {
-    var array = modelSwitch(req.params.model, req.params.mediaid);
-    var conditional = array[0];
-    var model = array[1];
-    model.update({
-        inProgress: true
-    }, {
-        where: conditional
+    var uid = req.cookies.test.uid
+    db.Users.findOne({
+        where: {
+            firebaseId: uid
+        }
     }).then(function (result) {
-        res.json(result)
+        var array = modelSwitch(req.params.model, req.params.mediaid, result.id);
+        var conditional = array[0];
+        var model = array[1];
+        model.update({
+            inProgress: true
+        }, {
+            where: conditional
+        }).then(function (result) {
+            res.json(result)
+        })
     })
 });
 
 // delete game from backlog
 router.delete("/api/:model/:mediaid/delete", function (req, res) {
-    var array = modelSwitch(req.params.model, req.params.mediaid);
-    var conditional = array[0];
-    var model = array[1];
-    model.destroy({
-        where: conditional
+    var uid = req.cookies.test.uid
+    db.Users.findOne({
+        where: {
+            firebaseId: uid
+        }
     }).then(function (result) {
-        res.json(result)
+        var array = modelSwitch(req.params.model, req.params.mediaid, result.id);
+        var conditional = array[0];
+        var model = array[1];
+        model.destroy({
+            where: conditional
+        }).then(function (result) {
+            res.json(result)
+        })
     })
 })
 //===================================================================================
@@ -435,7 +472,7 @@ function postModelSwitch(modelName, body) {
 
 router.post("/api/:model/add", function (req, res) {
 
-    var userId = localStorage.getItem('userId')
+    var uid = req.cookies.test.uid;
     var array = postModelSwitch(req.params.model, req.body);
     var conditional = array[0];
     var model = array[1];
@@ -447,7 +484,7 @@ router.post("/api/:model/add", function (req, res) {
 
             db.Users.findOne({
                 where: {
-                    id: userId
+                    firebaseId: uid
                 }
             }).then(function (user) {
                 result.setUsers([user]);
@@ -458,7 +495,7 @@ router.post("/api/:model/add", function (req, res) {
             model.create(req.body).then(function (media) {
                 db.Users.findOne({
                     where: {
-                        id: userId
+                        firebaseId: uid
                     }
                 }).then(function (user) {
                     media.setUsers([user]);
@@ -473,9 +510,4 @@ router.post("/api/:model/add", function (req, res) {
 // end
 //===================================================================================
 
-// ==================
-// ==================
-
-// ==================
-// ==================
 module.exports = router;

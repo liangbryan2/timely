@@ -1,5 +1,10 @@
 $(document).ready(function () {
-
+    $.ajaxSetup({
+        xhrFields: {
+            withCredentials: true
+        },
+        crossDomain: true
+    })
 
     $("#signUp").on("click", function () {
         var newUser = {
@@ -13,19 +18,15 @@ $(document).ready(function () {
             data: newUser
         }).then(function (result) {
             if (result) {
-
-
-                if (result === "auth/invalid-email") {
-                    $(".modalError").css("display", "flex");
-                } else {
+                if (result === "good") {
                     $(".landingWrap").css("animation", "1s fadeOut forwards")
                     setTimeout(function () {
                         window.location = "/search"
                     }, 500);
+                } else {
+                    alert(result);
                 }
-            } 
-            console.log("app")
-            console.log(result)
+            }
         })
     })
 
@@ -48,15 +49,17 @@ $(document).ready(function () {
             type: "POST",
             data: user
         }).then(function (result) {
-            console.log("front end result", result);
             if (result) {
-                $(".landingWrap").css("animation", "1s fadeOut forwards")
-                setTimeout(function () {
-                    window.location = "/dashboard"
-                }, 50);
-            } else {
-                $(".modalError").css("display","flex")
-                alert("error")
+                if (result === "good") {
+                    $(".landingWrap").css("animation", "1s fadeOut forwards")
+                    setTimeout(function () {
+                        window.location = "/dashboard"
+                    }, 500);
+                } else if (result === "Invalid User") {
+                    window.location = "/"
+                } else {
+                    alert(result);
+                }
             }
         })
     })
