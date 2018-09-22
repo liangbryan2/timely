@@ -13,7 +13,7 @@ that information to the user.
 
 ## Application Preview
 
-### Signed-In Page
+### Sign-Up Page
 ![Time.ly-SignIn](https://raw.githubusercontent.com/liangbryan2/timely/readme/public/img/signup.PNG)
 
 ### Search Page
