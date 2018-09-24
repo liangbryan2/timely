@@ -103,7 +103,7 @@ function modelSwitch(modelName, mediaId, userId) {
 router.put("/api/:model/:mediaid/complete", function (req, res) {
 
    // ...
-   // Then, after calling using the above function to format appropriate data:
+   // (Not pictured: Prepping data for insertion, including calling the above function)
    
    model.update({
             complete: true,
@@ -182,10 +182,9 @@ Here we have the server side code for user authentication. The client side sends
 1. Cookies and user authentication
   * A server can send a cookie with a unique id to the client
   * Set up the server to only operate on items attached to the unique id stored on the cookie that the client sends back to the server
-2. 
-  * 
-  * 
-  * 
+2. Database Management
+  * Using relational tables to handle user-specific data when a Many-To-Many relationship is involved.
+  * Using Switch Cases in conjunction with variable routing to handle working with multiple SQL models at one time.
 3. 
 
 ## Authors
