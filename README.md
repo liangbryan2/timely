@@ -114,7 +114,7 @@ router.put("/api/:model/:mediaid/complete", function (req, res) {
             res.json(result)
         })
      //...
-
+});
 ```
 ### Explanation of code
 Alongside the Users model we used sequelize to creat a unique model for each type of media. The relationship between the users models and any given media model was 'many to many', meaning we needed to create models for relational tables to store userspecific data regarding specific media. These tables used names such as: "UsersGames", "UsersBooks", and so on.
