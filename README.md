@@ -75,15 +75,51 @@ will start the server.
 8. Open the browser and type "localhost:3006" in the address bar. This will initialize the 
 client side of the application.
 
-## code snippets
+## Database Management via Sequelize
 <!-- put snippets of code inside ``` ``` so it will look like code -->
 <!-- if you want to put blockquotes use a > -->
 <!------------Azzy--------------------------------->
-```javascript
+```
+function modelSwitch(modelName, mediaId, userId) {
 
+    var conditional;
+    var model;
+    switch (modelName) {
+        case "games":
+            model = db.UsersGames;
+            conditional = {
+                GameId: mediaId,
+                UserId: userId
+            }
+            break;
+        case "books":
+         model = db.UsersBooks;
+            // etc...
+            // (Not pictured: Switch Case continues for each model)
+    }
+    return [conditional, model]
+}
+
+router.put("/api/:model/:mediaid/complete", function (req, res) {
+
+   // ...
+   // Then, after calling using the above function to format appropriate data:
+   
+   model.update({
+            complete: true,
+            inProgress: false
+        }, {
+            where: conditional
+        }).then(function (result) {
+            res.json(result)
+        })
+     //...
 
 ```
 ## Explanation of code
+Alongside the Users model we used sequelize to creat a unique model for each type of media. The relationship between the users models and any given media model was 'many to many', meaning we needed to create models for relational tables to store userspecific data regarding specific media. These tables used names such as: "UsersGames", "UsersBooks", and so on.
+
+As a result, our model count ended up rather large. So, in order to ensure this would not bloat our codebase for API routes, we opted to write dynamic routes that would call upon a switch case to ensure that a single call could remain flexible enough to handle more than a single generic object-format, allowing for us to pass in unique data appropriate to the media type.
 
 <!----------------------------End Azzy-------------------------------------------->
 
