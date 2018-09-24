@@ -79,7 +79,7 @@ client side of the application.
 <!-- put snippets of code inside ``` ``` so it will look like code -->
 <!-- if you want to put blockquotes use a > -->
 <!------------Azzy--------------------------------->
-```
+```javascript
 function modelSwitch(modelName, mediaId, userId) {
 
     var conditional;
