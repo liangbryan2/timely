@@ -116,7 +116,7 @@ router.put("/api/:model/:mediaid/complete", function (req, res) {
      //...
 
 ```
-## Explanation of code
+### Explanation of code
 Alongside the Users model we used sequelize to creat a unique model for each type of media. The relationship between the users models and any given media model was 'many to many', meaning we needed to create models for relational tables to store userspecific data regarding specific media. These tables used names such as: "UsersGames", "UsersBooks", and so on.
 
 As a result, our model count ended up rather large. So, in order to ensure this would not bloat our codebase for API routes, we opted to write dynamic routes that would call upon a switch case to ensure that a single call could remain flexible enough to handle more than a single generic object-format, allowing for us to pass in unique data appropriate to the media type.
