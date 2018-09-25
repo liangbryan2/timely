@@ -75,6 +75,23 @@ will start the server.
 8. Open the browser and type "localhost:3006" in the address bar. This will initialize the 
 client side of the application.
 
+## Designing as a Team
+
+We divided up the contributions to allow each of us to specialize in our technical fields. We played to our strengths and made the most of each other's talents. In the end, the whole became greater than the sum of its parts.
+
+## Design Softwares
+
+We used a combination of the following dor designing and editing the graphics, mockups, and layouts of the site:
+
+- Adobe Illustrator
+- Adobe InDesign
+- Adobe Photoshop
+- Sketch App
+
+## Design Reflection
+
+As a team, we worked very well together and created a product that was authentic to our interests from ideation to submission.
+
 ## Database Management via Sequelize
 <!-- put snippets of code inside ``` ``` so it will look like code -->
 <!-- if you want to put blockquotes use a > -->
