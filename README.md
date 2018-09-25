@@ -63,7 +63,7 @@ that information to the user.
 
 ## Execution steps on local machine
 1. Install Node.js [Node Installation](http://blog.teamtreehouse.com/install-node-js-npm-mac) for instructions.
-2. Clone the Lyricly respository.
+2. Clone the Timely respository.
 3. In terminal, navigate to the timely folder and type npm install. This will 
 install all the dependencies required to run the application contained in package.json.
 4. Install/run mySql on the local/host server. 
@@ -160,11 +160,44 @@ Here we have the server side code for user authentication. The client side sends
 
 <!------------Jason--------------------------------->
 ```javascript
-    
+    router.get("/games/:query", function (req, res) {
+  var query = req.params.query;
+  hltbService.search(query).then(function (result) {
+    var object = {};
+    var array = [];
+    if (result.length) {
+      var loopLength;
+      if (result.length <= 10) {
+        loopLength = result.length;
+      } else if (result.length > 10) {
+        loopLength = 10;
+      }
+      for (var i = 0; i < loopLength; i++) {
+        var totalMin = result[i].gameplayMain * 60;
+        var gameObj = {
+          name: result[i].name,
+          imgUrl: result[i].imageUrl,
+          lengthAttr1: result[i].gameplayMain,
+          lengthAttr2: result[i].gameplayCompletionist,
+          apiId: result[i].id,
+          time: totalMin,
+          type: "games"
+        }
+        array.push(gameObj);
+      }
+      object.items = array;
+    }
+    res.render("searchResults", object);
+    return;
+  });
+})
+
 
 ```
 ## Explanation of code
-
+This code snipet makes a request to HLTB servers for information about a given video game. 
+We create a game object to store the required information that we will use to
+format our output to the user. 
 
 <!----------------------------End Jason-------------------------------------------->
 
@@ -185,7 +218,9 @@ Here we have the server side code for user authentication. The client side sends
 2. Database Management
   * Using relational tables to handle user-specific data when a Many-To-Many relationship is involved.
   * Using Switch Cases in conjunction with variable routing to handle working with multiple SQL models at one time.
-3. 
+3. NPM Packages
+  * Not all NPM packages are created equally. It is important to do your research 
+  and test the response values. 
 
 ## Authors
 <!-- make a link to the deployed site and have your name as the link -->
