@@ -159,8 +159,9 @@ Here we have the server side code for user authentication. The client side sends
 <!----------------------------End Bryan-------------------------------------------->
 
 <!------------Jason--------------------------------->
+## External API Calls
 ```javascript
-    router.get("/games/:query", function (req, res) {
+  router.get("/games/:query", function (req, res) {
   var query = req.params.query;
   hltbService.search(query).then(function (result) {
     var object = {};
